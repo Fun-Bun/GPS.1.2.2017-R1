@@ -8,13 +8,13 @@ public class PlayerLandboxScript : MonoBehaviour
     public PlayerManager self;
 
     // Use this for initialization
-    void OnTriggerEnter2D (Collider2D other)
+    void OnTriggerStay2D (Collider2D other)
     {
-        self.controls.SetGround(true);
+		self.controls.SetGround(true);
     }
 
     void OnTriggerExit2D (Collider2D other)
     {
-        self.controls.SetGround(false);
+		self.controls.SetGround(false);
     }
 }

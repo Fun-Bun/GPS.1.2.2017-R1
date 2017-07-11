@@ -23,11 +23,15 @@ public class PlayerControlScript : MonoBehaviour
      */
 
     [Header("Detection")]
-    //public Platform platform;
+	//public Platform platform;
+	bool interacting;
 
     [Header("Movement")]
     public bool grounded;
     public bool hasDoubleJumped;
+
+	[Header("Settings")]
+	public bool canDoubleJump;
 
     void Start()
     {
@@ -42,7 +46,7 @@ public class PlayerControlScript : MonoBehaviour
         if (Input.GetAxis(inputHorizontal) != 0f)
         {
             transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * self.status.movementSpeed * Time.deltaTime);
-            self.renderer.flipX = Input.GetAxis("Horizontal") > 0;
+            //self.renderer.flipX = Input.GetAxis("Horizontal") > 0;
         }
 
         if (Input.GetButtonDown(inputJump))
@@ -53,7 +57,7 @@ public class PlayerControlScript : MonoBehaviour
             {
                 canJump = true;
             }
-            else if (!hasDoubleJumped)
+			else if (canDoubleJump && !hasDoubleJumped)
             {
                 hasDoubleJumped = true;
                 canJump = true;
@@ -75,10 +79,10 @@ public class PlayerControlScript : MonoBehaviour
 
         if(Input.GetButtonDown(inputAttack))
         {
-
+			self.weapon.Shoot();
         }
 
-        #endregion Movement
+        #endregion Attack
     }
 
     public void SetGround(bool isGrounded)
@@ -87,4 +91,21 @@ public class PlayerControlScript : MonoBehaviour
         if (grounded) hasDoubleJumped = false;
         self.animator.SetBool("Grounded", grounded);
     }
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		//Touch items
+		if(other.GetComponent<DroppedItemScript>())
+		{
+			DroppedItemScript drop = other.GetComponent<DroppedItemScript>();
+
+			self.inventory.AddItem(drop.data.type, drop.data.amount);
+			Destroy(other.gameObject);
+		}
+
+		if(interacting)
+		{
+			//Other interactions
+		}
+	}
 }
