@@ -15,7 +15,8 @@ public class PlayerManager : MonoBehaviour
 	public PlayerStatusScript status;
 	public PlayerInventoryScript inventory;
 	public PlayerWeaponScript weapon;
-    public PlayerLandboxScript landbox;
+	public PlayerLandboxScript landbox;
+	public PlatformReceiverScript platformReceiver;
 
 	// Use this for initialization
 	void Start ()
@@ -30,6 +31,7 @@ public class PlayerManager : MonoBehaviour
 		inventory = GetComponent<PlayerInventoryScript>();
 		weapon = GetComponentInChildren<PlayerWeaponScript>();
 		landbox = GetComponentInChildren<PlayerLandboxScript>();
+		platformReceiver = GetComponent<PlatformReceiverScript>();
 
 		if (controls    != null)   controls.self    = this;
 		if (status      != null)   status.self      = this;

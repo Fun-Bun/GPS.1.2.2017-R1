@@ -2,14 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStatusScript : MonoBehaviour
-{
-	[HideInInspector]
-	public EnemyManager self;
-
-	public Resource health;
-	public float speed;
-	public float jumpHeight;
+public class EnemyMeleeScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
