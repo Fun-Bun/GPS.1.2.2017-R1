@@ -30,7 +30,7 @@ public class EnemyManager : MonoBehaviour
 		platformReceiver = GetComponent<PlatformReceiverScript>();
 
 		if (controls    != null)   controls.self    = this;
-//		if (status      != null)   status.self      = this;
+		if (status      != null)   status.self      = this;
 		if (landbox     != null)   landbox.self     = this;
 	}
 }

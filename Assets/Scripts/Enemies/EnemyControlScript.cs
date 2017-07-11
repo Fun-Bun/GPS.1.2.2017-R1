@@ -28,8 +28,10 @@ public class EnemyControlScript : MonoBehaviour
 	[Header("Settings")]
 	public float triggerRange;
 	public float movementBuffer;
+	public float attackBuffer;
 	public float idleTimer;
 	public float idleDuration;
+	public float timer;
 
 	[Header("Prefabs")]
 	public GameObject targetPrefab;
@@ -48,15 +50,15 @@ public class EnemyControlScript : MonoBehaviour
 		target.SetPosition(transform.position);
 	}
 
-	bool Move(Transform targetTransform)
+	bool Move(Transform targetTransform, float buffer)
 	{
-		if(this.transform.position.x + movementBuffer < targetTransform.transform.position.x)
+		if(this.transform.position.x + buffer < targetTransform.position.x)
 		{
 			//Move Right
 			this.transform.Translate(Time.deltaTime * self.status.speed * Vector3.right);
 			self.renderer.flipX = true;
 		}
-		else if(targetTransform.transform.position.x < this.transform.position.x - movementBuffer)
+		else if(targetTransform.position.x < this.transform.position.x - buffer)
 		{
 			//Move Left
 			this.transform.Translate(Time.deltaTime * self.status.speed * Vector3.left);
@@ -72,6 +74,10 @@ public class EnemyControlScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		self.animator.SetBool("IsMoving", state == AIState.Walk || state == AIState.Jump || state == AIState.Drop);
+		self.animator.SetFloat("VSpeed", self.rigidbody.velocity.y);
+		self.animator.SetBool("Midair", self.platformReceiver.platform == null);
+
 		if(player != null)
 		{
 			float distanceToPlayer = Vector2.Distance((Vector2)this.transform.position, (Vector2)player.transform.position);
@@ -79,52 +85,56 @@ public class EnemyControlScript : MonoBehaviour
 			if(inVicinity)
 			{
 				target.SetPosition(player.transform.position);
-				if(!hasTransformed) transforming = true;
+				if(!transforming) transforming = true;
 			}
 			
-			if(transforming)
+			if(transforming && !hasTransformed)
 			{
-				if(self.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+				self.animator.Play("Monster_Transform");
+
+				timer += Time.deltaTime;
+				if(timer >= 1.2f)
 				{
-					self.animator.Play("Enemy_TransformLeft");
-				}
-				else
-				{
-					transforming = false;
 					hasTransformed = true;
+					timer = 0.0f;
+					self.status.speed *= 4.0f;
 					target.SetPosition(player.transform.position);
 				}
+
+				return;
 			}
 		}
 
 		switch(state)
 		{
 			case AIState.Drop:
-				if(self.platformReceiver.platform != null && Mathf.Abs(transform.position.x - targetStart.transform.position.x) < movementBuffer)
-				{
+				if(Move(targetStart, movementBuffer))
 					state = AIState.Walk;
-				}
-				else
-				{
-					Move(targetStart);
-				}
+//				if(self.platformReceiver.platform != null && Mathf.Abs(transform.position.x - targetStart.transform.position.x) < movementBuffer)
+//				{
+//					state = AIState.Walk;
+//				}
+//				else
+//				{
+//					Move(targetStart);
+//				}
 				break;
 
 			case AIState.Jump:
-				if(Move(targetStart))
+				if(Move(targetStart, movementBuffer))
 				{
 					//Reached, jump now!!
 					GetComponent<Rigidbody2D>().AddForce(Vector2.up * self.status.jumpHeight, ForceMode2D.Impulse);
 
-					if(hasTransformed) self.animator.Play("Enemy_JumpLeft");
-					else self.animator.Play("Enemy_PreWalkLeft");
+					if(hasTransformed) self.animator.Play("Monster_Jump");
+					else self.animator.Play("Monster_PreWalk");
 
 					state = AIState.Land;
 				}
 				break;
 
 			case AIState.Land:
-				if(Move(targetEnd))
+				if(Move(targetEnd, movementBuffer))
 				{
 					//Landing successful
 					state = AIState.Walk;
@@ -134,13 +144,14 @@ public class EnemyControlScript : MonoBehaviour
 			case AIState.Walk:
 				if(self.platformReceiver.platform != null && self.platformReceiver.platform.whoStepOnMe.Contains(target.platformReceiver))
 				{
-					if(Move(target.transform))
+					if(Move(target.transform, attackBuffer))
 					{
 						//Attack
 						if(inVicinity)
 						{
+							self.renderer.flipX = this.transform.position.x < target.transform.position.x;
 							state = AIState.Attack;
-//							self.melee.hasHit = false;
+							timer = 0.0f;
 						}
 						else
 							state = AIState.Idle;
@@ -151,10 +162,13 @@ public class EnemyControlScript : MonoBehaviour
 					if(self.platformReceiver.platform != null && target.platformReceiver.platform != null)
 					{
 						PlatformScript targetPlatform;
+						Transform follow;
 						if(self.platformReceiver.platform.transform.position.y < target.platformReceiver.platform.transform.position.y)
 						{
 							//Find player's platform
 							targetPlatform = target.platformReceiver.platform;
+
+							follow = this.transform;
 
 							//Enter Jumping State
 							state = AIState.Jump;
@@ -164,12 +178,14 @@ public class EnemyControlScript : MonoBehaviour
 							//Find self's platform
 							targetPlatform = self.platformReceiver.platform;
 
+							follow = target.transform;
+
 							//Enter Dropping State
 							state = AIState.Drop;
 						}
 
-						float distance1 = Mathf.Abs(targetPlatform.jumpPoints[0].jumpStart.transform.position.x - this.transform.position.x);
-						float distance2 = Mathf.Abs(targetPlatform.jumpPoints[1].jumpStart.transform.position.x - this.transform.position.x);
+						float distance1 = Mathf.Abs(targetPlatform.jumpPoints[0].jumpStart.transform.position.x - follow.position.x);
+						float distance2 = Mathf.Abs(targetPlatform.jumpPoints[1].jumpStart.transform.position.x - follow.position.x);
 
 						//Find nearest target
 						if(distance1 <= distance2)
@@ -185,13 +201,14 @@ public class EnemyControlScript : MonoBehaviour
 					}
 					else
 					{
-						if(Move(target.transform))
+						if(Move(target.transform, attackBuffer))
 						{
 							//Attack
 							if(inVicinity)
 							{
+								self.renderer.flipX = this.transform.position.x < target.transform.position.x;
 								state = AIState.Attack;
-//								self.melee.hasHit = false;
+								timer = 0.0f;
 							}
 							else
 								state = AIState.Idle;
@@ -200,25 +217,30 @@ public class EnemyControlScript : MonoBehaviour
 				}
 				break;
 			case AIState.Attack:
-				if(self.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-					self.animator.Play("Enemy_AttackLeft");
-				else
+				self.animator.Play("Monster_Attack");
+
+				timer += Time.deltaTime;
+				if(timer >= 0.7f)
+				{
+					timer = 0f;
 					state = AIState.Walk;
+				}
 				break;
 
 			case AIState.Death:
-	            self.animator.Play("Enemy_Death");
+				self.animator.Play("Monster_Death");
+				Destroy(gameObject, self.animator.GetCurrentAnimatorStateInfo(0).length);
 	            break;
 
 			case AIState.Idle:
 			default:
 				if(hasTransformed)
 				{
-					self.animator.Play("Enemy_IdleLeft");
+					self.animator.Play("Monster_Idle");
 				}
 				else
 				{
-					self.animator.Play("Enemy_PreIdleLeft");
+					self.animator.Play("Monster_PreIdle");
 				}
 				if(inVicinity)
 				{

@@ -45,7 +45,7 @@ public class PlayerUIScript : MonoBehaviour
 		for(int i = 0; i < healthImages.Length; i++)
 		{
 			int cal = self.status.health.value - (partitionMax * i);
-			healthImages[i].sprite = StorageManagerScript.Instance.sprites.playerHealth[(cal >= partitionMax ? partitionMax : cal)];
+			healthImages[i].sprite = StorageManagerScript.Instance.sprites.playerHealth[(cal >= partitionMax ? partitionMax : (cal < 0 ? 0 : cal))];
         }
     }
 

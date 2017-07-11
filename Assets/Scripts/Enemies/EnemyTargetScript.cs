@@ -18,6 +18,6 @@ public class EnemyTargetScript : MonoBehaviour
 
 	public void SetPosition(Vector3 pos)
 	{
-		this.transform.position = pos - new Vector3(0, offsetY, 0);
+		this.transform.position = pos + new Vector3(0, offsetY, 0);
 	}
 }

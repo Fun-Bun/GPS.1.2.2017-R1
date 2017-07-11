@@ -20,14 +20,14 @@ public class ProjectileScript : MonoBehaviour
 
 			Destroy(gameObject);
 
-//			if(other.gameObject.tag == "Enemy")
-//			{
-//				EnemyStatus enemyScript = other.gameObject.GetComponent<EnemyStatus>();
-//
-//				enemyScript.Hurt(crit);
-//
-//				Destroy(gameObject);
-//			}
+			if(other.GetComponent<EnemyManager>())
+			{
+				EnemyManager enemy = other.GetComponent<EnemyManager>();
+
+				enemy.status.health.Reduce(1);
+
+				Destroy(gameObject);
+			}
 		}
 	}
 
