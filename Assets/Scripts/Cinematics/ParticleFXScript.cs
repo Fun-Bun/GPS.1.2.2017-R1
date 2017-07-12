@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileFXScript : MonoBehaviour
+public class ParticleFXScript : MonoBehaviour
 {
 	// Use this for initialization
 	void Start ()
 	{
 		Animator animator = GetComponent<Animator>();
-		Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length);
+		Destroy(gameObject, animator.GetCurrentAnimatorStateInfo(0).length - 0.1f);
 	}
 }
