@@ -23,6 +23,7 @@ public class StorageManagerScript : MonoBehaviour
 	public SpriteStorage sprites;
 	public ItemStorage items;
 	public WeaponStorage weapons;
+	public EnemyStorage enemies;
 }
 
 [System.Serializable]
@@ -85,4 +86,10 @@ public class WeaponSettings
 public class WeaponStorage
 {
 	public WeaponSettings[] settings;
+}
+
+[System.Serializable]
+public class EnemyStorage
+{
+	public GameObject bloodSplatterFX;
 }

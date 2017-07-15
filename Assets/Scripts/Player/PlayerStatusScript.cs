@@ -16,6 +16,11 @@ public class PlayerStatusScript : MonoBehaviour
 	public float movementSpeed;
 	public float jumpHeight;
 
+	[Header("Combat")]
+	public bool isHit;
+	public float invincibleTimer;
+	public float invincibleDuration;
+
 	void Awake()
 	{
 		//healthDeplete.resource = health;
@@ -26,6 +31,19 @@ public class PlayerStatusScript : MonoBehaviour
 	{
 		//healthDeplete.Update(Time.deltaTime);
 		CheckDeath();
+
+		if(isHit)
+		{
+			if(invincibleTimer < invincibleDuration)
+			{
+				invincibleTimer += Time.deltaTime;
+			}
+			else
+			{
+				invincibleTimer = 0;
+				isHit = false;
+			}
+		}
 	}
 
 	void CheckDeath()
@@ -35,7 +53,16 @@ public class PlayerStatusScript : MonoBehaviour
 			Debug.Log("Player is dead.");
 			//self.ui.UpdateHealth();
 			gameObject.SetActive(false);
-			SceneManager.LoadScene("Singleton");
+			SceneManager.LoadScene("GameScene");
+		}
+	}
+
+	public void ApplyInvincibility()
+	{
+		if(!isHit)
+		{
+			isHit = true;
+			invincibleTimer = 0.0f;
 		}
 	}
 }

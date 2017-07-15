@@ -5,30 +5,30 @@ using UnityEngine.UI;
 
 public class PlayerUIScript : MonoBehaviour
 {
-	[Header("Setup")]
+	[HideInInspector]
 	public PlayerManager self;
+	public Animator ammoAnimator;
 
 	[Header("UI Elements")]
 	public GameObject healthUI;
-	private Image[] healthImages;
+	private List<Image> healthImages;
 
 	public GameObject weaponUI;
 	private Image weaponImage;
 
+	public Slider ammoUI_slider;
+	public Text ammoUI_text;
 	public GameObject ammoUI_bullet;
-	private Image[] ammoImages_bullet;
-
-	public GameObject ammoUI_energy;
-	private Image[] ammoImages_energy;
+	private List<Image> ammoImages_bullet;
 
 	// Use this for initialization
 	void Start ()
 	{
 		GetComponent<Canvas>().worldCamera = Camera.main;
-		healthImages = healthUI.GetComponentsInChildren<Image>();
+		healthImages = new List<Image>(healthUI.GetComponentsInChildren<Image>());
+		healthImages.RemoveAt(0);
 		weaponImage = weaponUI.GetComponentsInChildren<Image>()[1];
-		ammoImages_bullet = ammoUI_bullet.GetComponentsInChildren<Image>();
-		ammoImages_energy = ammoUI_energy.GetComponentsInChildren<Image>();
+		ammoImages_bullet = new List<Image>(ammoUI_bullet.GetComponentsInChildren<Image>());
 	}
 	
 	// Update is called once per frame
@@ -39,21 +39,24 @@ public class PlayerUIScript : MonoBehaviour
 	}
 
     public void UpdateHealth()
-    {
+	{
 		int partitionMax = StorageManagerScript.Instance.sprites.playerHealth.Length - 1;
 
-		for(int i = 0; i < healthImages.Length; i++)
+		for(int i = 0; i < healthImages.Count; i++)
 		{
 			int cal = self.status.health.value - (partitionMax * i);
-			healthImages[i].sprite = StorageManagerScript.Instance.sprites.playerHealth[(cal >= partitionMax ? partitionMax : (cal < 0 ? 0 : cal))];
-        }
+			int displayCount = (cal >= partitionMax ? partitionMax : (cal < 0 ? 0 : cal));
+			healthImages[i].GetComponent<Animator>().SetInteger("HealthCount", displayCount);
+//			healthImages[i].sprite = StorageManagerScript.Instance.sprites.playerHealth[displayCount];
+//			if(displayCount > 0) healthImages[i].color = Color.white;
+//			else healthImages[i].color = Color.clear;
+		}
     }
 
 	void UpdateWeapon()
 	{
 		weaponUI.SetActive(self.weapon.GetActiveWeapon() != null);
 		ammoUI_bullet.SetActive(self.weapon.GetActiveWeapon().type == Weapon.WeaponType.Pistol);
-		ammoUI_energy.SetActive(false);
 
 		if(self.weapon.GetActiveWeapon() == null || Weapon.IsAbstractWeaponType(self.weapon.GetActiveWeapon().type))
 		{
@@ -68,15 +71,25 @@ public class PlayerUIScript : MonoBehaviour
 			switch(self.weapon.GetActiveWeapon().type)
 			{
 				case Weapon.WeaponType.Pistol:
+					ammoUI_text.text = self.weapon.GetActiveWeapon().ammo.value.ToString();
 					int partitionMax = StorageManagerScript.Instance.sprites.playerAmmo.Length - 1;
 
-					for(int i = 0; i < ammoImages_bullet.Length; i++)
+					for(int i = 0; i < ammoImages_bullet.Count; i++)
 					{
 						int cal = self.weapon.GetActiveWeapon().ammo.value - (partitionMax * i);
-						ammoImages_bullet[i].sprite = StorageManagerScript.Instance.sprites.playerAmmo[(cal >= partitionMax ? partitionMax : 0)];
+						int displayCount = (cal >= partitionMax ? partitionMax : (cal < 0 ? 0 : cal));
+						ammoImages_bullet[i].GetComponent<Animator>().SetInteger("AmmoCount", displayCount);
+//						ammoImages_bullet[i].sprite = StorageManagerScript.Instance.sprites.playerAmmo[displayCount];
+//						if(displayCount > 0) ammoImages_bullet[i].color = Color.white;
+//						else ammoImages_bullet[i].color = Color.clear;
 					}
 					break;
 			}
 		}
+	}
+
+	public void PlayReload()
+	{
+		ammoAnimator.Play("BulletBar_Loading");
 	}
 }

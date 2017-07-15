@@ -144,6 +144,9 @@ public class PlayerWeaponScript : MonoBehaviour
 				Instantiate(StorageManagerScript.Instance.weapons.settings[0].projectile, fireSpot.position, Quaternion.Euler(0f, 0f, angle));
 
 				animator.Play("Gun_Default_Shoot", 0, 0.0f);
+
+				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
+
 				GetActiveWeapon().ammo.Reduce(1);
 
 				cooldownTimer = 0;
@@ -178,6 +181,10 @@ public class PlayerWeaponScript : MonoBehaviour
 				{
 					reloadTimer = 0;
 					animator.Play("Gun_Default_Reload");
+					self.ui.PlayReload();
+
+					SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_RELOAD);
+
 					state = WeaponState.Reloading;
 				}
 				break;

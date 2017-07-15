@@ -70,6 +70,12 @@ public class EnemyControlScript : MonoBehaviour
 		}
 		return false;
 	}
+
+	public void SetTargetToPlayer()
+	{
+		target.SetPosition(player.transform.position);
+		if(!transforming) transforming = true;
+	}
 	
 	// Update is called once per frame
 	void Update ()
@@ -84,8 +90,7 @@ public class EnemyControlScript : MonoBehaviour
 			inVicinity = distanceToPlayer <= triggerRange;
 			if(inVicinity)
 			{
-				target.SetPosition(player.transform.position);
-				if(!transforming) transforming = true;
+				SetTargetToPlayer();
 			}
 			
 			if(transforming && !hasTransformed)
@@ -184,6 +189,9 @@ public class EnemyControlScript : MonoBehaviour
 							state = AIState.Drop;
 						}
 
+						//! if targetstart is higher than me(targetStart is too far)
+						//! needs a way to jump to targetStart first
+						//! redirect to targetStart before returning to original path(original target)
 						float distance1 = Mathf.Abs(targetPlatform.jumpPoints[0].jumpStart.transform.position.x - follow.position.x);
 						float distance2 = Mathf.Abs(targetPlatform.jumpPoints[1].jumpStart.transform.position.x - follow.position.x);
 

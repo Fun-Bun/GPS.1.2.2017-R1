@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -19,4 +20,9 @@ public class GameManagerScript : MonoBehaviour
 		DontDestroyOnLoad(this.gameObject);
 	}
 	#endregion Singleton
+
+	void Start()
+	{
+		SceneManager.LoadScene("MainMenu");
+	}
 }

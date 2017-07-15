@@ -67,6 +67,8 @@ public class PlayerControlScript : MonoBehaviour
             {
                 self.rigidbody.velocity = Vector2.zero;
                 self.rigidbody.AddForce(Vector2.up * self.status.jumpHeight, ForceMode2D.Impulse);
+
+				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_JUMPING);
             }
         }
 

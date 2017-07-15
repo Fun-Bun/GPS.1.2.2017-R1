@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
 	public PlayerStatusScript status;
 	public PlayerInventoryScript inventory;
 	public PlayerWeaponScript weapon;
+	public PlayerUIScript ui;
 	public PlayerLandboxScript landbox;
 	public PlatformReceiverScript platformReceiver;
 
@@ -30,6 +31,7 @@ public class PlayerManager : MonoBehaviour
 		status = GetComponent<PlayerStatusScript>();
 		inventory = GetComponent<PlayerInventoryScript>();
 		weapon = GetComponentInChildren<PlayerWeaponScript>();
+		ui = GetComponentInChildren<PlayerUIScript>();
 		landbox = GetComponentInChildren<PlayerLandboxScript>();
 		platformReceiver = GetComponent<PlatformReceiverScript>();
 
@@ -37,6 +39,7 @@ public class PlayerManager : MonoBehaviour
 		if (status      != null)   status.self      = this;
 		if (inventory   != null)   inventory.self   = this;
 		if (weapon   	!= null)   weapon.self   	= this;
+		if (ui		   	!= null)   ui.self   		= this;
 		if (landbox     != null)   landbox.self     = this;
 	}
 }
