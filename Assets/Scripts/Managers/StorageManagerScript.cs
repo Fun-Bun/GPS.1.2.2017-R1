@@ -2,30 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StorageManagerScript : MonoBehaviour
-{
-	#region Singleton
-	private static StorageManagerScript mInstance;
-
-	public static StorageManagerScript Instance {get { return mInstance; }}
-
-	void Awake ()
-	{
-		if (mInstance == null) //Assign this object to this reference
-			mInstance = this;
-		else if (mInstance != this) //Existed two or more instances, destroy duplicates
-			Destroy(this.gameObject);
-
-		DontDestroyOnLoad(this.gameObject);
-	}
-	#endregion Singleton
-
-	public SpriteStorage sprites;
-	public ItemStorage items;
-	public WeaponStorage weapons;
-	public EnemyStorage enemies;
-}
-
 [System.Serializable]
 public class SpriteStorage
 {
@@ -92,4 +68,48 @@ public class WeaponStorage
 public class EnemyStorage
 {
 	public GameObject bloodSplatterFX;
+}
+
+public class StorageManagerScript : MonoBehaviour
+{
+	#region Singleton
+	private static StorageManagerScript mInstance;
+
+	public static StorageManagerScript Instance
+	{
+		get
+		{
+			if(mInstance == null)
+			{
+				StorageManagerScript temp = ManagerControllerScript.Instance.storageManager;
+
+				if(temp == null)
+				{
+					temp = Instantiate(ManagerControllerScript.Instance.storageManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<StorageManagerScript>();
+				}
+				mInstance = temp;
+				ManagerControllerScript.Instance.storageManager = mInstance;
+				//DontDestroyOnLoad(mInstance.gameObject); //Editor bug
+			}
+			return mInstance;
+		}
+	}
+	public static bool CheckInstanceExist()
+	{
+		return mInstance;
+	}
+	#endregion Singleton
+
+	public SpriteStorage sprites;
+	public ItemStorage items;
+	public WeaponStorage weapons;
+	public EnemyStorage enemies;
+
+	void Awake () 
+	{
+		if(StorageManagerScript.CheckInstanceExist())
+		{
+			Destroy(this.gameObject);
+		}
+	}
 }

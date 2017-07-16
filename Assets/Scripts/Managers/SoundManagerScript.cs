@@ -82,6 +82,7 @@ public class AudioClipInfo
 
 public class SoundManagerScript : MonoBehaviour 
 {
+	#region Singleton
 	private static SoundManagerScript mInstance;
 
 	public static SoundManagerScript Instance
@@ -90,13 +91,14 @@ public class SoundManagerScript : MonoBehaviour
 		{
 			if(mInstance == null)
 			{
-				GameObject tempObject = GameObject.FindWithTag("SoundManager");
+				SoundManagerScript temp = ManagerControllerScript.Instance.soundManager;
 
-				if(tempObject == null)
+				if(temp == null)
 				{
-					tempObject = Instantiate(PrefabManagerScript.Instance.soundManagerPrefab, Vector3.zero, Quaternion.identity);
+					temp = Instantiate(ManagerControllerScript.Instance.soundManagerPrefab, Vector3.zero, Quaternion.identity).GetComponent<SoundManagerScript>();
 				}
-				mInstance = tempObject.GetComponent<SoundManagerScript>();
+				mInstance = temp;
+				ManagerControllerScript.Instance.soundManager = mInstance;
 				DontDestroyOnLoad(mInstance.gameObject);
 			}
 			return mInstance;
@@ -106,6 +108,7 @@ public class SoundManagerScript : MonoBehaviour
 	{
 		return mInstance;
 	}
+	#endregion Singleton
 
 	public float bgmVolume = 1.0f;
 	public float sfxVolume = 1.0f;
@@ -139,20 +142,6 @@ public class SoundManagerScript : MonoBehaviour
 			bgmAudioSource = audioSourceList[1];
 			sfxAudioSource = audioSourceList[0];
 		}
-
-		DontDestroyOnLoad(gameObject);
-	}
-
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
-	void Update () 
-	{
-
 	}
 
 	AudioClip FindAudioClip(AudioClipID audioClipID)
