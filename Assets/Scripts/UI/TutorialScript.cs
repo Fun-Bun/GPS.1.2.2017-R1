@@ -15,8 +15,7 @@ public class TutorialScript : MonoBehaviour
 	public TutorialType type;
 	public Sprite[] spritePreview;
 
-	// Use this for initialization
-	void Awake ()
+	void OnEnable()
 	{
 		switch(type)
 		{

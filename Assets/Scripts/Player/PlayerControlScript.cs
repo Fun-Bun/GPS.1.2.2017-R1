@@ -23,8 +23,7 @@ public class PlayerControlScript : MonoBehaviour
      */
 
     [Header("Detection")]
-	//public Platform platform;
-	bool interacting;
+	public bool interacting;
 
     [Header("Movement")]
     public bool grounded;
@@ -85,6 +84,15 @@ public class PlayerControlScript : MonoBehaviour
         }
 
         #endregion Attack
+
+		#region Interact
+
+		if(Input.GetButtonDown(inputInteract))
+			interacting = true;
+		else if(Input.GetButtonUp(inputInteract))
+			interacting = false;
+
+		#endregion Interact
     }
 
     public void SetGround(bool isGrounded)
