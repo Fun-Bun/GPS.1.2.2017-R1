@@ -21,6 +21,9 @@ public class PlayerStatusScript : MonoBehaviour
 	public float invincibleTimer;
 	public float invincibleDuration;
 
+	[Header("Respawn")]
+	public string respawnScene;
+
 	void Awake()
 	{
 		//healthDeplete.resource = health;
@@ -29,7 +32,8 @@ public class PlayerStatusScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		//healthDeplete.Update(Time.deltaTime);
+		if(PauseMenuManagerScript.Instance.paused) return;
+
 		CheckDeath();
 
 		if(isHit)
@@ -51,9 +55,8 @@ public class PlayerStatusScript : MonoBehaviour
 		if(health.value <= 0)
 		{
 			Debug.Log("Player is dead.");
-			//self.ui.UpdateHealth();
 			gameObject.SetActive(false);
-			SceneManager.LoadScene("GameScene");
+			SceneManager.LoadScene(respawnScene);
 		}
 	}
 

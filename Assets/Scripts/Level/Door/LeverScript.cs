@@ -25,6 +25,7 @@ public class LeverScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(PauseMenuManagerScript.Instance.paused) return;
 		animator.SetBool("IsActive", isActive);
 		tutorial.gameObject.SetActive(showTutorial);
 	}

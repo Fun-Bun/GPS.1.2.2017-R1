@@ -32,6 +32,7 @@ public class DoorScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(PauseMenuManagerScript.Instance.paused) return;
 		animator.SetBool("IsOpened", isOpened);
 		tutorial.gameObject.SetActive(showTutorial);
 	}

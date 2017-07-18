@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public enum AudioClipID
 {
@@ -112,12 +113,14 @@ public class SoundManagerScript : MonoBehaviour
 
 	public float bgmVolume = 1.0f;
 	public float sfxVolume = 1.0f;
+	public float brightness = 1.0f;
 
 
 	public List<AudioClipInfo> audioClipInfoList = new List<AudioClipInfo>();
 
 	public AudioSource bgmAudioSource;
 	public AudioSource sfxAudioSource;
+	public Image brightnessMask;
 
 	public List<AudioSource> sfxAudioSourceList = new List<AudioSource>();
 	public List<AudioSource> bgmAudioSourceList = new List<AudioSource>();
@@ -271,5 +274,11 @@ public class SoundManagerScript : MonoBehaviour
 	{
 		sfxVolume = value;
 		sfxAudioSource.volume = sfxVolume;
+	}
+
+	public void SetBrightness(float value)
+	{
+		brightness = value;
+		brightnessMask.color = new Color(0, 0, 0, 1 - brightness);
 	}
 }

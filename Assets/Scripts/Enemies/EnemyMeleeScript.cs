@@ -15,6 +15,7 @@ public class EnemyMeleeScript : MonoBehaviour
 
 	void Update()
 	{
+		if(PauseMenuManagerScript.Instance.paused) return;
 		if(renderer.flipX) transform.localScale = new Vector3(-1f, 1f, 1f);
 		else transform.localScale = new Vector3(1f, 1f, 1f);
 	}

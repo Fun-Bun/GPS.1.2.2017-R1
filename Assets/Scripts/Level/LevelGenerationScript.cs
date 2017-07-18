@@ -6,7 +6,7 @@ using UnityEngine;
 public class LevelCollection
 {
 	public string name;
-	public int spawnSize;
+	public float spawnRate;
 	public List<GameObject> prefabs;
 }
 
@@ -23,38 +23,33 @@ public class LevelGenerationScript : MonoBehaviour
 
 	public int roomSize;
 	public List<LevelCollection> levelPrefabs;
+	public List<GameObject> spawnedLevels;
 
 	// Use this for initialization
 	void Start ()
 	{
-		//BUGGGED!! LOOP CRASHES THE GAME!
-//		List<int> roomsLeft = new List<int>();
-//
-//		for(int i = 0; i < (int)LevelType.Total; i++)
-//		{
-//			roomsLeft.Add(levelPrefabs[i].spawnSize);
-//		}
-//
-//		int total = (int)LevelType.Total;
-//
-//		for(int i = 0; i < roomSize; i++)
-//		{
-//			int rand = Random.Range(0, total);
-//
-//			for(int j = rand; j < (int)LevelType.Total; i++)
-//			{
-//				if(roomsLeft[j] <= 0)
-//					rand++;
-//			}
-//
-//			if(rand >= (int)LevelType.Total)
-//				break;
-//
-//			GameObject newLevel = Instantiate(levelPrefabs[rand].prefabs[Random.Range(0, levelPrefabs[rand].prefabs.Count)]);
-//			roomsLeft[rand]--;
-//
-//			if(roomsLeft[rand] <= 0)
-//				total--;
-//		}
+		for(int i = 0; i < roomSize; i++)
+		{
+			float random = Random.Range(0.0f, 1.0f);
+			float lowLimit;
+			float highLimit = 0;
+
+			Debug.Log(random);
+
+			for(int j = 0; j < levelPrefabs.Count; j++)
+			{
+				lowLimit = highLimit;
+				highLimit += levelPrefabs[j].spawnRate;
+				if(random >= lowLimit && random <= highLimit)
+				{
+					Debug.Log(levelPrefabs[j].name);
+//					Transform l_obj = spawnPoints[Random.Range(0, spawnPoints.Length)];
+//					Instantiate(enemies[l_enemy].enemy, l_obj.position, l_obj.rotation);
+//					currentEnemies += 1;
+//					enemiesSpawnedThisWave += 1;
+					break;
+				}
+			}
+		}
 	}
 }

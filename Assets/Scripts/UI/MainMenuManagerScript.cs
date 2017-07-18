@@ -24,11 +24,33 @@ public class MainMenuManagerScript : MonoBehaviour
 		menuWindows[menu].SetActive(false);
 	}
 
-	public void SetupBGM(GameObject slider){}
+	public void SetupBGM(GameObject slider)
+	{
+		slider.GetComponent<Slider>().value = SoundManagerScript.Instance.bgmVolume;
+	}
 
-	public void SetupSFX(GameObject slider){}
+	public void SetupSFX(GameObject slider)
+	{
+		slider.GetComponent<Slider>().value = SoundManagerScript.Instance.sfxVolume;
+	}
 
-	public void ChangeBGM(GameObject slider){}
+	public void SetupBrightness(GameObject slider)
+	{
+		slider.GetComponent<Slider>().value = SoundManagerScript.Instance.brightness;
+	}
 
-	public void ChangeSFX(GameObject slider){}
+	public void ChangeBGM(GameObject slider)
+	{
+		SoundManagerScript.Instance.SetBGMVolume(slider.GetComponent<Slider>().value);
+	}
+
+	public void ChangeSFX(GameObject slider)
+	{
+		SoundManagerScript.Instance.SetSFXVolume(slider.GetComponent<Slider>().value);
+	}
+
+	public void ChangeBrightness(GameObject slider)
+	{
+		SoundManagerScript.Instance.SetBrightness(slider.GetComponent<Slider>().value);
+	}
 }

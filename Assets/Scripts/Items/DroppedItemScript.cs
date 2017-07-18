@@ -10,6 +10,7 @@ public class DroppedItemScript : MonoBehaviour
 
 	void Update()
 	{
+		if(PauseMenuManagerScript.Instance.paused) return;
 		if(prevType != data.type)
 		{
 			SetItemSprite();

@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
 	[Header("System")]
-	public new BoxCollider2D collider;
+	public new CapsuleCollider2D collider;
 	public new Rigidbody2D rigidbody;
 	public new SpriteRenderer renderer;
 	public Animator animator;
@@ -22,7 +22,7 @@ public class PlayerManager : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        collider = GetComponent<BoxCollider2D>();
+		collider = GetComponent<CapsuleCollider2D>();
 		rigidbody = GetComponent<Rigidbody2D>();
 		renderer = GetComponentInChildren<SpriteRenderer>();
 		animator = GetComponentInChildren<Animator>();

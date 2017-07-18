@@ -73,6 +73,7 @@ public class PlayerWeaponScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(PauseMenuManagerScript.Instance.paused) return;
 		if(GetActiveWeapon() != null)
 		{
 			RotateGun();

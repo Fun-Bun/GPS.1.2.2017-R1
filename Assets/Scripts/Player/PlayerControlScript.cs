@@ -39,7 +39,8 @@ public class PlayerControlScript : MonoBehaviour
     }
 
     void Update()
-    {
+	{
+		if(PauseMenuManagerScript.Instance.paused) return;
         #region Movement
 
         if (Input.GetAxis(inputHorizontal) != 0f)

@@ -38,6 +38,7 @@ public class ManagerControllerScript : MonoBehaviour
 	public GameObject gameManagerPrefab;
 	public GameObject soundManagerPrefab;
 	public GameObject storageManagerPrefab;
+	public GameObject pauseMenuManagerPrefab;
 
 	[Header("In-scene Managers")]
 	public GameManagerScript gameManager;

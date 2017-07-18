@@ -19,6 +19,7 @@ public class EnemyStatusScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		if(PauseMenuManagerScript.Instance.paused) return;
 		if(health.value <= 0)
 		{
 			self.controls.state = EnemyControlScript.AIState.Death;
