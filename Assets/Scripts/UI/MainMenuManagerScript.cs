@@ -14,6 +14,11 @@ public class MainMenuManagerScript : MonoBehaviour
 		SceneManager.LoadScene(startGameScene);
 	}
 
+	public void ExitGame()
+	{
+		Application.Quit();
+	}
+
 	public void OpenMenu(int menu)
 	{
 		menuWindows[menu].SetActive(true);
