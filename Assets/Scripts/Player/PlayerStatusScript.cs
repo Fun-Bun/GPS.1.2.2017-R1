@@ -23,6 +23,7 @@ public class PlayerStatusScript : MonoBehaviour
 
 	[Header("Respawn")]
 	public string respawnScene;
+	public string quitScene;
 
 	void Awake()
 	{
@@ -33,8 +34,6 @@ public class PlayerStatusScript : MonoBehaviour
 	void Update ()
 	{
 		if(PauseMenuManagerScript.Instance.paused) return;
-
-		CheckDeath();
 
 		if(isHit)
 		{
@@ -50,14 +49,14 @@ public class PlayerStatusScript : MonoBehaviour
 		}
 	}
 
-	void CheckDeath()
+	public void Respawn()
 	{
-		if(health.value <= 0)
-		{
-			Debug.Log("Player is dead.");
-			gameObject.SetActive(false);
-			SceneManager.LoadScene(respawnScene);
-		}
+		SceneManager.LoadScene(respawnScene);
+	}
+
+	public void Quit()
+	{
+		SceneManager.LoadScene(quitScene);
 	}
 
 	public void ApplyInvincibility()

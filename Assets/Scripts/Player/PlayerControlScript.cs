@@ -31,6 +31,7 @@ public class PlayerControlScript : MonoBehaviour
 
 	[Header("Settings")]
 	public bool canDoubleJump;
+	public float visionPercentage;
 
     void Start()
     {
@@ -94,6 +95,14 @@ public class PlayerControlScript : MonoBehaviour
 			interacting = false;
 
 		#endregion Interact
+
+		#region CameraAdjust
+
+		Vector3 posP = transform.position;
+		Vector3 posC = Extension.GetMousePosition();
+		Camera.main.transform.position = new Vector3 (posP.x + ((posC.x - posP.x) * visionPercentage), posP.y + ((posC.y - posP.y) * visionPercentage), -10.0f);
+
+		#endregion CameraAdjust
     }
 
     public void SetGround(bool isGrounded)

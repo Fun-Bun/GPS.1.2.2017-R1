@@ -22,6 +22,7 @@ public class LevelGenerationScript : MonoBehaviour
 	}
 
 	public int roomSize;
+	public int roomGap;
 	public List<LevelCollection> levelPrefabs;
 	public List<GameObject> spawnedLevels;
 
@@ -43,6 +44,7 @@ public class LevelGenerationScript : MonoBehaviour
 				if(random >= lowLimit && random <= highLimit)
 				{
 					Debug.Log(levelPrefabs[j].name);
+
 //					Transform l_obj = spawnPoints[Random.Range(0, spawnPoints.Length)];
 //					Instantiate(enemies[l_enemy].enemy, l_obj.position, l_obj.rotation);
 //					currentEnemies += 1;

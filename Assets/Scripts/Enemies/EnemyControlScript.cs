@@ -73,7 +73,8 @@ public class EnemyControlScript : MonoBehaviour
 
 	public void SetTargetToPlayer()
 	{
-		target.SetPosition(player.transform.position);
+		if(player.platformReceiver.platform != null)
+			target.SetPosition(player.transform.position);
 		if(!transforming) transforming = true;
 	}
 	
@@ -169,17 +170,7 @@ public class EnemyControlScript : MonoBehaviour
 					{
 						PlatformScript targetPlatform;
 						Transform follow;
-						if(self.platformReceiver.platform.transform.position.y < target.platformReceiver.platform.transform.position.y)
-						{
-							//Find player's platform
-							targetPlatform = target.platformReceiver.platform;
-
-							follow = this.transform;
-
-							//Enter Jumping State
-							state = AIState.Jump;
-						}
-						else
+						if(self.platformReceiver.platform.transform.position.y - attackBuffer > target.platformReceiver.platform.transform.position.y)
 						{
 							//Find self's platform
 							targetPlatform = self.platformReceiver.platform;
@@ -188,6 +179,16 @@ public class EnemyControlScript : MonoBehaviour
 
 							//Enter Dropping State
 							state = AIState.Drop;
+						}
+						else
+						{
+							//Find player's platform
+							targetPlatform = target.platformReceiver.platform;
+
+							follow = this.transform;
+
+							//Enter Jumping State
+							state = AIState.Jump;
 						}
 
 						//! if targetstart is higher than me(targetStart is too far)
@@ -199,13 +200,27 @@ public class EnemyControlScript : MonoBehaviour
 						//Find nearest target
 						if(distance1 <= distance2)
 						{
-							targetStart = targetPlatform.jumpPoints[0].jumpStart;
-							targetEnd = targetPlatform.jumpPoints[0].jumpEnd;
+							if(targetPlatform.jumpPoints[0].jumpStart.gameObject.activeInHierarchy)
+								targetStart = targetPlatform.jumpPoints[0].jumpStart;
+							else
+								targetStart = targetPlatform.jumpPoints[1].jumpStart;
+							
+							if(targetPlatform.jumpPoints[0].jumpEnd.gameObject.activeInHierarchy)
+								targetEnd = targetPlatform.jumpPoints[0].jumpEnd;
+							else
+								targetEnd = targetPlatform.jumpPoints[1].jumpEnd;
 						}
 						else
 						{
-							targetStart = targetPlatform.jumpPoints[1].jumpStart;
-							targetEnd = targetPlatform.jumpPoints[1].jumpEnd;
+							if(targetPlatform.jumpPoints[1].jumpStart.gameObject.activeInHierarchy)
+								targetStart = targetPlatform.jumpPoints[1].jumpStart;
+							else
+								targetStart = targetPlatform.jumpPoints[0].jumpStart;
+
+							if(targetPlatform.jumpPoints[1].jumpEnd.gameObject.activeInHierarchy)
+								targetEnd = targetPlatform.jumpPoints[1].jumpEnd;
+							else
+								targetEnd = targetPlatform.jumpPoints[0].jumpEnd;
 						}
 					}
 					else
@@ -251,7 +266,7 @@ public class EnemyControlScript : MonoBehaviour
 				{
 					self.animator.Play("Monster_PreIdle");
 				}
-				if(inVicinity)
+				if(inVicinity && player.platformReceiver.platform != null)
 				{
 					state = AIState.Walk;
 				}

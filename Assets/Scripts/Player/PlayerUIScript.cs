@@ -21,6 +21,8 @@ public class PlayerUIScript : MonoBehaviour
 	public GameObject ammoUI_bullet;
 	private List<Image> ammoImages_bullet;
 
+	public GameObject deadImage;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -29,6 +31,7 @@ public class PlayerUIScript : MonoBehaviour
 		healthImages.RemoveAt(0);
 		weaponImage = weaponUI.GetComponentsInChildren<Image>()[1];
 		ammoImages_bullet = new List<Image>(ammoUI_bullet.GetComponentsInChildren<Image>());
+		deadImage.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -41,6 +44,16 @@ public class PlayerUIScript : MonoBehaviour
 
     public void UpdateHealth()
 	{
+		if(self.status.health.value <= 0)
+		{
+			self.rigidbody.simulated = false;
+			self.controls.enabled = false;
+			self.renderer.enabled = false;
+			deadImage.SetActive(true);
+			this.enabled = false;
+			return;
+		}
+
 		int partitionMax = StorageManagerScript.Instance.sprites.playerHealth.Length - 1;
 
 		for(int i = 0; i < healthImages.Count; i++)
