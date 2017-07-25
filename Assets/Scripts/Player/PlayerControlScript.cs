@@ -31,24 +31,40 @@ public class PlayerControlScript : MonoBehaviour
 
 	[Header("Settings")]
 	public bool canDoubleJump;
+	public bool canMoveCamera;
+	[Tooltip("How far can player see?")]
 	public float visionPercentage;
+	[Tooltip("How fast the camera follows the mouse?")]
+	public float mouseSensitivity;
+	[Tooltip("How fast the camera traces back when moving?")]
+	public float snapSensitivity;
+	[Tooltip("How much threshold buffer for camera's position?")]
+	public float cameraMovementBuffer;
 
     void Start()
     {
         grounded = false;
         hasDoubleJumped = false;
-    }
+	}
+
+	void FixedUpdate()
+	{
+		if(PauseMenuManagerScript.Instance.paused) return;
+		#region Movement
+
+		if (Input.GetAxis(inputHorizontal) != 0f)
+		{
+			transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * self.status.movementSpeed * Time.deltaTime);
+			//self.renderer.flipX = Input.GetAxis("Horizontal") > 0;
+		}
+		
+		#endregion Movement
+	}
 
     void Update()
 	{
 		if(PauseMenuManagerScript.Instance.paused) return;
         #region Movement
-
-        if (Input.GetAxis(inputHorizontal) != 0f)
-        {
-            transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * self.status.movementSpeed * Time.deltaTime);
-            //self.renderer.flipX = Input.GetAxis("Horizontal") > 0;
-        }
 
         if (Input.GetButtonDown(inputJump))
         {
@@ -98,9 +114,17 @@ public class PlayerControlScript : MonoBehaviour
 
 		#region CameraAdjust
 
-		Vector3 posP = transform.position;
-		Vector3 posC = Extension.GetMousePosition();
-		Camera.main.transform.position = new Vector3 (posP.x + ((posC.x - posP.x) * visionPercentage), posP.y + ((posC.y - posP.y) * visionPercentage), -10.0f);
+		if(canMoveCamera)
+		{
+			Vector3 posP = transform.position;
+			Vector3 posC = Extension.GetMousePosition();
+			Vector3 camPos = new Vector3 (posP.x + ((posC.x - posP.x) * visionPercentage), posP.y + ((posC.y - posP.y) * visionPercentage), -10.0f);
+
+			if(Vector3.Distance(Camera.main.transform.position, camPos) > cameraMovementBuffer)
+			{
+				Camera.main.transform.position += new Vector3((camPos.x - Camera.main.transform.position.x) * (Input.GetAxis("Horizontal") == 0.0f ? 1 : snapSensitivity), camPos.y - Camera.main.transform.position.y, 0.0f) * Time.deltaTime * mouseSensitivity;
+			}
+		}
 
 		#endregion CameraAdjust
     }

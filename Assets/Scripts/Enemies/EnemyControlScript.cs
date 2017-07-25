@@ -79,7 +79,7 @@ public class EnemyControlScript : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate ()
 	{
 		if(PauseMenuManagerScript.Instance.paused) return;
 		self.animator.SetBool("IsMoving", state == AIState.Walk || state == AIState.Jump || state == AIState.Drop);
