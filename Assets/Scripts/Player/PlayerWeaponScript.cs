@@ -136,22 +136,47 @@ public class PlayerWeaponScript : MonoBehaviour
 		{
 			CheckRemainingBullet();
 
-			if(state == WeaponState.Ready/* || (GetActiveWeapon().type == WeaponType.ParticleCannon && state == WeaponState.Reloading)*/)
-	        {
-				Vector3 direction = Extension.GetMousePosition() - this.transform.position;
-				direction.Normalize ();
-				float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg - 180.0f;
 
-				Instantiate(StorageManagerScript.Instance.weapons.settings[0].projectile, fireSpot.position, Quaternion.Euler(0f, 0f, angle));
+			switch(GetActiveWeapon().type)
+			{
+				case Weapon.WeaponType.Pistol:
+					if(state == WeaponState.Ready)
+			        {
+						Vector3 direction = Extension.GetMousePosition() - this.transform.position;
+						direction.Normalize ();
+						float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg - 180.0f;
 
-				animator.Play("Gun_Default_Shoot", 0, 0.0f);
+						Instantiate(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].projectile, fireSpot.position, Quaternion.Euler(0f, 0f, angle));
 
-				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
+						animator.Play("Gun_Default_Shoot", 0, 0.0f);
 
-				GetActiveWeapon().ammo.Reduce(1);
+						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
 
-				cooldownTimer = 0;
-	            state = WeaponState.Cooldown;
+						GetActiveWeapon().ammo.Reduce(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].ammoPerShot);
+
+						cooldownTimer = 0;
+			            state = WeaponState.Cooldown;
+					}
+					break;
+			case Weapon.WeaponType.Laser:
+				if(state == WeaponState.Ready /*WeaponState.Reloading*/)
+				{
+					Vector3 direction = Extension.GetMousePosition() - this.transform.position;
+					direction.Normalize ();
+					float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg - 180.0f;
+
+					Instantiate(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].projectile, fireSpot.transform);
+
+					animator.Play("Gun_Default_Shoot", 0, 0.0f);
+
+					SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
+
+					GetActiveWeapon().ammo.Reduce(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].ammoPerShot);
+
+					cooldownTimer = 0;
+					state = WeaponState.Cooldown;
+				}
+				break;
 			}
 		}
     }
@@ -162,6 +187,7 @@ public class PlayerWeaponScript : MonoBehaviour
 		switch(GetActiveWeapon().type)
 		{
 			case Weapon.WeaponType.Pistol:
+			case Weapon.WeaponType.Laser:
 				state = WeaponState.Ready;
 				break;
 			/*
@@ -178,7 +204,8 @@ public class PlayerWeaponScript : MonoBehaviour
 		switch(GetActiveWeapon().type)
 		{
 			case Weapon.WeaponType.Pistol:
-				if(state != WeaponState.Reloading)
+			case Weapon.WeaponType.Laser:
+				if(state != WeaponState.Reloading && cooldownTimer <= 0.0f)
 				{
 					reloadTimer = 0;
 					animator.Play("Gun_Default_Reload");
@@ -202,6 +229,7 @@ public class PlayerWeaponScript : MonoBehaviour
 		switch(GetActiveWeapon().type)
 		{
 			case Weapon.WeaponType.Pistol:
+			case Weapon.WeaponType.Laser:
 				GetActiveWeapon().ammo.value = GetActiveWeapon().ammo.max;
 				state = WeaponState.Ready;
 				break;
@@ -241,6 +269,7 @@ public class PlayerWeaponScript : MonoBehaviour
 			switch(GetActiveWeapon().type)
 			{
 				case Weapon.WeaponType.Pistol:
+				case Weapon.WeaponType.Laser:
 					if(GetActiveWeapon().ammo.value <= 0)
 					{
 						GetActiveWeapon().ammo.value = 0;

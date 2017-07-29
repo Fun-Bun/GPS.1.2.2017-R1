@@ -10,6 +10,7 @@ public class Weapon
 	{
 		None = -1,
 		Pistol = 0,
+		Laser,
 		TotalWeapons
 	}
 

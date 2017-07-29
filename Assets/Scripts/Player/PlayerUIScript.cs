@@ -70,7 +70,7 @@ public class PlayerUIScript : MonoBehaviour
 	void UpdateWeapon()
 	{
 		weaponUI.SetActive(self.weapon.GetActiveWeapon() != null);
-		ammoUI_bullet.SetActive(self.weapon.GetActiveWeapon().type == Weapon.WeaponType.Pistol);
+		ammoUI_bullet.SetActive(!Weapon.IsAbstractWeaponType(self.weapon.GetActiveWeapon().type));
 
 		if(self.weapon.GetActiveWeapon() == null || Weapon.IsAbstractWeaponType(self.weapon.GetActiveWeapon().type))
 		{
@@ -85,6 +85,7 @@ public class PlayerUIScript : MonoBehaviour
 			switch(self.weapon.GetActiveWeapon().type)
 			{
 				case Weapon.WeaponType.Pistol:
+				case Weapon.WeaponType.Laser:
 					ammoUI_text.text = self.weapon.GetActiveWeapon().ammo.value.ToString();
 					int partitionMax = StorageManagerScript.Instance.sprites.playerAmmo.Length - 1;
 

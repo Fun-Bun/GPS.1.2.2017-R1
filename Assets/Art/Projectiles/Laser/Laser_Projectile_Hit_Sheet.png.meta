@@ -1,10 +1,14 @@
 fileFormatVersion: 2
-guid: 5e236a70113aced499b10bc27361d4d9
-timeCreated: 1501342574
+guid: 91726746b268a0c4685d3a5edc26ab70
+timeCreated: 1501348588
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Default_Projectile_0
+    21300000: Laser_Projectile_Hit_Sheet_0
+    21300002: Laser_Projectile_Hit_Sheet_1
+    21300004: Laser_Projectile_Hit_Sheet_2
+    21300006: Laser_Projectile_Hit_Sheet_3
+    21300008: Laser_Projectile_Hit_Sheet_4
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -83,7 +87,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: WebGL
+  - buildTarget: Windows Store Apps
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 0
@@ -91,7 +95,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-  - buildTarget: Windows Store Apps
+  - buildTarget: WebGL
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 0
@@ -103,16 +107,68 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Default_Projectile_0
+      name: Laser_Projectile_Hit_Sheet_0
       rect:
         serializedVersion: 2
-        x: 4
-        y: 6
-        width: 8
-        height: 4
-      alignment: 9
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 5
       pivot: {x: 1, y: 0.5}
-      border: {x: 1, y: 1, z: 1, w: 1}
+      border: {x: 28, y: 15, z: 1, w: 15}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Laser_Projectile_Hit_Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 28, y: 15, z: 1, w: 15}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Laser_Projectile_Hit_Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 28, y: 15, z: 1, w: 15}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Laser_Projectile_Hit_Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 28, y: 15, z: 1, w: 15}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Laser_Projectile_Hit_Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 5
+      pivot: {x: 1, y: 0.5}
+      border: {x: 28, y: 15, z: 1, w: 15}
       outline: []
       tessellationDetail: 0
     outline: []

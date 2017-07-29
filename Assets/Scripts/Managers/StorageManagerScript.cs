@@ -39,6 +39,8 @@ public class WeaponSettings
 	public Sprite sprite;
 	[Header("Advanced")]
 	public int maxAmmo;
+	public int ammoPerShot;
+	public int maxTargets;
 	public float cooldownDuration;
 	public float reloadDuration;
 	public float overheatDuration;
