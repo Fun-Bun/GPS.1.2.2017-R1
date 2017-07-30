@@ -7,8 +7,10 @@ public class PlayerControlScript : MonoBehaviour
     [HideInInspector]
     public PlayerManager self;
 
-    [Header("Input Settings")]
-    public string inputHorizontal;
+	[Header("Input Settings")]
+	public string inputHorizontal;
+	public string inputLeft;
+	public string inputRight;
     public string inputJump;
     public string inputAttack;
     public string inputInteract;
@@ -26,11 +28,22 @@ public class PlayerControlScript : MonoBehaviour
 	public bool interacting;
 
     [Header("Movement")]
-    public bool grounded;
-    public bool hasDoubleJumped;
+	public bool grounded;
+	public float moveSpeedFactor;
+	public bool hasDoubleJumped;
+	public bool hasPressedLeft;
+	public bool hasPressedRight;
+	private float leftTimer = 0.0f;
+	private float rightTimer = 0.0f;
+	public bool isRolling;
+	private float rollTimer = 0.0f;
+	public bool rollReady;
+	private float rollCooldownTimer = 0.0f;
+	public float rollCooldownDuration;
 
 	[Header("Settings")]
 	public bool canDoubleJump;
+	public bool canRoll;
 	public bool canMoveCamera;
 	[Tooltip("How far can player see?")]
 	public float visionPercentage;
@@ -45,6 +58,7 @@ public class PlayerControlScript : MonoBehaviour
     {
         grounded = false;
         hasDoubleJumped = false;
+		moveSpeedFactor = 0.0f;
 	}
 
 	void FixedUpdate()
@@ -52,10 +66,15 @@ public class PlayerControlScript : MonoBehaviour
 		if(PauseMenuManagerScript.Instance.paused) return;
 		#region Movement
 
-		if (Input.GetAxis(inputHorizontal) != 0f)
+		if(!isRolling)
+			moveSpeedFactor = Input.GetAxis(inputHorizontal);
+		else
+			moveSpeedFactor = 2.0f * Mathf.Sign(Input.GetAxis(inputHorizontal));
+		
+		if (moveSpeedFactor != 0f)
 		{
-			transform.Translate(Vector3.right * Input.GetAxis("Horizontal") * self.status.movementSpeed * Time.deltaTime);
-			//self.renderer.flipX = Input.GetAxis("Horizontal") > 0;
+			transform.Translate(Vector3.right * moveSpeedFactor * self.status.movementSpeed * Time.deltaTime);
+			//self.renderer.flipX = moveSpeedFactor > 0;
 		}
 		
 		#endregion Movement
@@ -64,7 +83,84 @@ public class PlayerControlScript : MonoBehaviour
     void Update()
 	{
 		if(PauseMenuManagerScript.Instance.paused) return;
-        #region Movement
+		#region Movement
+
+		if(canRoll)
+		{
+			if(!isRolling)
+			{
+				if(rollReady)
+				{
+					if(grounded && Mathf.Abs(moveSpeedFactor) >= 0.5f)
+					{
+						if(Input.GetButtonDown(inputLeft) && !self.renderer.flipX)
+						{
+							if(hasPressedLeft)
+							{
+								isRolling = true;
+								rollReady = false;
+								hasPressedLeft = false;
+							}
+							else
+							{
+								hasPressedLeft = true;
+							}
+						}
+						else if(Input.GetButtonDown(inputRight) && self.renderer.flipX)
+						{
+							if(hasPressedRight)
+							{
+								isRolling = true;
+								rollReady = false;
+								hasPressedRight = false;
+							}
+							else
+							{
+								hasPressedRight = true;
+							}
+						}
+
+						if(hasPressedLeft)
+						{
+							leftTimer += Time.deltaTime;
+							if(leftTimer >= 1.0f)
+							{
+								hasPressedLeft = false;
+								leftTimer = 0.0f;
+							}
+						}
+
+						if(hasPressedRight)
+						{
+							rightTimer += Time.deltaTime;
+							if(rightTimer >= 1.0f)
+							{
+								hasPressedRight = false;
+								rightTimer = 0.0f;
+							}
+						}
+					}
+				}
+				else
+				{
+					rollCooldownTimer += Time.deltaTime;
+					if(rollCooldownTimer >= rollCooldownDuration)
+					{
+						rollReady = true;
+						rollCooldownTimer = 0.0f;
+					}
+				}
+			}
+			else
+			{
+				rollTimer += Time.deltaTime;
+				if(rollTimer >= 0.5f)
+				{
+					isRolling = false;
+					rollTimer = 0.0f;
+				}
+			}
+		}
 
         if (Input.GetButtonDown(inputJump))
         {
@@ -88,10 +184,6 @@ public class PlayerControlScript : MonoBehaviour
 				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_JUMPING);
             }
         }
-
-		self.animator.SetFloat("HSpeedAbs", Mathf.Abs(Input.GetAxis("Horizontal") * self.status.movementSpeed));
-		self.animator.SetFloat("VSpeed", self.rigidbody.velocity.y);
-		self.animator.SetBool("IsDoubleJumping", hasDoubleJumped);
 
         #endregion Movement
 
@@ -137,11 +229,17 @@ public class PlayerControlScript : MonoBehaviour
 
 			if(Vector3.Distance(Camera.main.transform.position, camPos) > cameraMovementBuffer)
 			{
-				Camera.main.transform.position += new Vector3((camPos.x - Camera.main.transform.position.x) * (Input.GetAxis("Horizontal") == 0.0f ? 1 : snapSensitivity), camPos.y - Camera.main.transform.position.y, 0.0f) * Time.deltaTime * mouseSensitivity;
+				Camera.main.transform.position += new Vector3((camPos.x - Camera.main.transform.position.x) * (moveSpeedFactor == 0.0f ? 1 : snapSensitivity), camPos.y - Camera.main.transform.position.y, 0.0f) * Time.deltaTime * mouseSensitivity;
 			}
 		}
 
 		#endregion CameraAdjust
+		
+		self.animator.SetFloat("HSpeedAbs", Mathf.Abs(moveSpeedFactor * self.status.movementSpeed));
+		self.animator.SetFloat("VSpeed", self.rigidbody.velocity.y);
+		self.animator.SetBool("IsDoubleJumping", hasDoubleJumped);
+		self.animator.SetBool("IsFlip", self.renderer.flipX);
+		self.animator.SetBool("IsRolling", isRolling);
     }
 
     public void SetGround(bool isGrounded)
