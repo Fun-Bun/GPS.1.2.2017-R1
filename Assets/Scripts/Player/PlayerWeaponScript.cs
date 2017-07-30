@@ -27,8 +27,14 @@ public class PlayerWeaponScript : MonoBehaviour
 	public float[] cooldownTimer = new float[(int)Weapon.WeaponType.TotalWeapons];
 	public float[] reloadTimer = new float[(int)Weapon.WeaponType.TotalWeapons];
 	public float[] overheatTimer = new float[(int)Weapon.WeaponType.TotalWeapons];
+	public float switchTimer = 0.0f;
 
 	public List<Weapon> weaponList;
+
+	[Header("Settings")]
+	public float coneScaleUpwards = 0.75f;
+	public float coneScaleDownwards = 0.75f;
+	public bool isSwitching;
 
 	public Weapon GetActiveWeapon()
 	{
@@ -49,11 +55,9 @@ public class PlayerWeaponScript : MonoBehaviour
 		Weapon weapon = weaponList[0];
 		weaponList.RemoveAt(0);
 		weaponList.Add(weapon);
-	}
 
-	[Header("Settings")]
-	public float coneScaleUpwards = 0.75f;
-	public float coneScaleDownwards = 0.75f;
+		isSwitching = true;
+	}
 
 	void Start()
 	{
@@ -109,6 +113,19 @@ public class PlayerWeaponScript : MonoBehaviour
 						break;
 				}
 			}
+
+			if(isSwitching)
+			{
+				switchTimer += Time.deltaTime;
+				if(switchTimer >= 0.1f)
+				{
+					isSwitching = false;
+					switchTimer = 0.0f;
+				}
+			}
+
+			self.ui.SetReload(state[(int)GetActiveWeapon().type] == WeaponState.Reloading);
+			self.ui.SetSwitch(isSwitching);
 		}
 	}
 	
@@ -221,7 +238,6 @@ public class PlayerWeaponScript : MonoBehaviour
 				{
 					reloadTimer[(int)GetActiveWeapon().type] = 0;
 					animator.Play("Gun_Default_Reload");
-					self.ui.PlayReload();
 
 					SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_RELOAD);
 

@@ -86,7 +86,7 @@ public class PlayerUIScript : MonoBehaviour
 			{
 				case Weapon.WeaponType.Pistol:
 				case Weapon.WeaponType.Laser:
-					ammoUI_text.text = self.weapon.GetActiveWeapon().ammo.value.ToString();
+					ammoUI_text.text = ((int)(self.weapon.GetActiveWeapon().ammo.value / StorageManagerScript.Instance.weapons.settings[(int)self.weapon.GetActiveWeapon().type].ammoPerShot)).ToString();
 					int partitionMax = StorageManagerScript.Instance.sprites.playerAmmo.Length - 1;
 
 					for(int i = 0; i < ammoImages_bullet.Count; i++)
@@ -94,6 +94,8 @@ public class PlayerUIScript : MonoBehaviour
 						int cal = self.weapon.GetActiveWeapon().ammo.value - (partitionMax * i);
 						int displayCount = (cal >= partitionMax ? partitionMax : (cal < 0 ? 0 : cal));
 						ammoImages_bullet[i].GetComponent<Animator>().SetInteger("AmmoCount", displayCount);
+						ammoImages_bullet[i].GetComponent<Animator>().SetBool("IsLaser", self.weapon.GetActiveWeapon().type == Weapon.WeaponType.Laser);
+						ammoImages_bullet[i].GetComponent<Animator>().SetBool("IsSwitching", self.weapon.isSwitching);
 //						ammoImages_bullet[i].sprite = StorageManagerScript.Instance.sprites.playerAmmo[displayCount];
 //						if(displayCount > 0) ammoImages_bullet[i].color = Color.white;
 //						else ammoImages_bullet[i].color = Color.clear;
@@ -103,8 +105,14 @@ public class PlayerUIScript : MonoBehaviour
 		}
 	}
 
-	public void PlayReload()
+	public void SetReload(bool isReloading)
 	{
-		ammoAnimator.Play("BulletBar_Loading");
+		ammoAnimator.SetBool("IsReloading", isReloading);
+	}
+
+	public void SetSwitch(bool isSwitching)
+	{
+		ammoAnimator.SetBool("IsSwitching", isSwitching);
+		//ammoAnimator.Play("BulletBar_Switching");
 	}
 }

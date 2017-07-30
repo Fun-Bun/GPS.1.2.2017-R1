@@ -120,12 +120,12 @@ public class PlayerControlScript : MonoBehaviour
 		
 		#endregion Reload
 
-		#region Reload
+		#region SwitchWeapon
 
 		if(Input.GetButtonDown(inputSwitchWeapon))
 			self.weapon.CycleWeapon();
 		
-		#endregion Reload
+		#endregion SwitchWeapon
 
 		#region CameraAdjust
 
