@@ -20,7 +20,13 @@ public class PlayerWeaponScript : MonoBehaviour
 		Overheat
 	}
 
-	public WeaponState state;
+	[Header("States")]
+	public WeaponState[] state = new WeaponState[(int)Weapon.WeaponType.TotalWeapons];
+
+	[Header("Timers")]
+	public float[] cooldownTimer = new float[(int)Weapon.WeaponType.TotalWeapons];
+	public float[] reloadTimer = new float[(int)Weapon.WeaponType.TotalWeapons];
+	public float[] overheatTimer = new float[(int)Weapon.WeaponType.TotalWeapons];
 
 	public List<Weapon> weaponList;
 
@@ -45,10 +51,6 @@ public class PlayerWeaponScript : MonoBehaviour
 		weaponList.Add(weapon);
 	}
 
-    private float cooldownTimer;
-	private float reloadTimer;
-	private float overheatTimer;
-
 	[Header("Settings")]
 	public float coneScaleUpwards = 0.75f;
 	public float coneScaleDownwards = 0.75f;
@@ -67,6 +69,14 @@ public class PlayerWeaponScript : MonoBehaviour
 				else
 					w.ammo.value = w.ammo.max = 0;
 			}
+
+			for(int i = 0; i < (int)Weapon.WeaponType.TotalWeapons; i++)
+			{
+				cooldownTimer[i] = 0.0f;
+				reloadTimer[i] = 0.0f;
+				overheatTimer[i] = 0.0f;
+				state[i] = WeaponState.Ready;
+			}
 		}
 	}
 
@@ -77,24 +87,27 @@ public class PlayerWeaponScript : MonoBehaviour
 		if(GetActiveWeapon() != null)
 		{
 			RotateGun();
-
-			switch (state)
+			
+			for(int i = 0; i < (int)Weapon.WeaponType.TotalWeapons; i++)
 			{
-				case WeaponState.Cooldown:
-					cooldownTimer += Time.deltaTime;
-					if(cooldownTimer >= GetActiveWeaponSettings().cooldownDuration)
-						CooldownDone();
-					break;
-				case WeaponState.Reloading:
-					reloadTimer += Time.deltaTime;
-					if(reloadTimer >= GetActiveWeaponSettings().reloadDuration)
-						ReloadDone();
-					break;
-				case WeaponState.Overheat:
-					overheatTimer += Time.deltaTime;
-					if(overheatTimer >= GetActiveWeaponSettings().overheatDuration)
-						OverheatDone();
-					break;
+				switch (state[i])
+				{
+					case WeaponState.Cooldown:
+						cooldownTimer[i] += Time.deltaTime;
+						if(cooldownTimer[i] >= StorageManagerScript.Instance.weapons.settings[i].cooldownDuration)
+							CooldownDone((Weapon.WeaponType)i);
+						break;
+					case WeaponState.Reloading:
+						reloadTimer[i] += Time.deltaTime;
+						if(reloadTimer[i] >= StorageManagerScript.Instance.weapons.settings[i].reloadDuration)
+							ReloadDone((Weapon.WeaponType)i);
+						break;
+					case WeaponState.Overheat:
+						overheatTimer[i] += Time.deltaTime;
+						if(overheatTimer[i] >= StorageManagerScript.Instance.weapons.settings[i].overheatDuration)
+							OverheatDone((Weapon.WeaponType)i);
+						break;
+				}
 			}
 		}
 	}
@@ -134,13 +147,10 @@ public class PlayerWeaponScript : MonoBehaviour
 	{
 		if(GetActiveWeapon() != null)
 		{
-			CheckRemainingBullet();
-
-
 			switch(GetActiveWeapon().type)
 			{
 				case Weapon.WeaponType.Pistol:
-					if(state == WeaponState.Ready)
+					if(state[(int)GetActiveWeapon().type] == WeaponState.Ready)
 			        {
 						Vector3 direction = Extension.GetMousePosition() - this.transform.position;
 						direction.Normalize ();
@@ -154,41 +164,43 @@ public class PlayerWeaponScript : MonoBehaviour
 
 						GetActiveWeapon().ammo.Reduce(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].ammoPerShot);
 
-						cooldownTimer = 0;
-			            state = WeaponState.Cooldown;
+						cooldownTimer[(int)GetActiveWeapon().type] = 0;
+						state[(int)GetActiveWeapon().type] = WeaponState.Cooldown;
 					}
 					break;
-			case Weapon.WeaponType.Laser:
-				if(state == WeaponState.Ready /*WeaponState.Reloading*/)
-				{
-					Vector3 direction = Extension.GetMousePosition() - this.transform.position;
-					direction.Normalize ();
-					float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg - 180.0f;
+				case Weapon.WeaponType.Laser:
+					if(state[(int)GetActiveWeapon().type] == WeaponState.Ready /*WeaponState.Reloading*/)
+					{
+						Vector3 direction = Extension.GetMousePosition() - this.transform.position;
+						direction.Normalize ();
+						float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg - 180.0f;
 
-					Instantiate(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].projectile, fireSpot.transform);
+						Instantiate(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].projectile, fireSpot.transform);
 
-					animator.Play("Gun_Default_Shoot", 0, 0.0f);
+						animator.Play("Gun_Default_Shoot", 0, 0.0f);
 
-					SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
+						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
 
-					GetActiveWeapon().ammo.Reduce(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].ammoPerShot);
+						GetActiveWeapon().ammo.Reduce(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].ammoPerShot);
 
-					cooldownTimer = 0;
-					state = WeaponState.Cooldown;
-				}
-				break;
+						cooldownTimer[(int)GetActiveWeapon().type] = 0;
+						state[(int)GetActiveWeapon().type] = WeaponState.Cooldown;
+					}
+					break;
 			}
+
+			CheckRemainingBullet();
 		}
     }
 
-	void CooldownDone()
+	void CooldownDone(Weapon.WeaponType type)
 	{
-		cooldownTimer = 0;
-		switch(GetActiveWeapon().type)
+		cooldownTimer[(int)type] = 0;
+		switch(type)
 		{
 			case Weapon.WeaponType.Pistol:
 			case Weapon.WeaponType.Laser:
-				state = WeaponState.Ready;
+				state[(int)type] = WeaponState.Ready;
 				break;
 			/*
 			case Weapon.WeaponType.ParticleCannon:
@@ -205,15 +217,15 @@ public class PlayerWeaponScript : MonoBehaviour
 		{
 			case Weapon.WeaponType.Pistol:
 			case Weapon.WeaponType.Laser:
-				if(state != WeaponState.Reloading && cooldownTimer <= 0.0f)
+				if(state[(int)GetActiveWeapon().type] != WeaponState.Reloading && cooldownTimer[(int)GetActiveWeapon().type] <= 0.0f)
 				{
-					reloadTimer = 0;
+					reloadTimer[(int)GetActiveWeapon().type] = 0;
 					animator.Play("Gun_Default_Reload");
 					self.ui.PlayReload();
 
 					SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_RELOAD);
 
-					state = WeaponState.Reloading;
+					state[(int)GetActiveWeapon().type] = WeaponState.Reloading;
 				}
 				break;
 			/*
@@ -223,35 +235,38 @@ public class PlayerWeaponScript : MonoBehaviour
 		}
 	}
 
-	void ReloadDone()
+	void ReloadDone(Weapon.WeaponType type)
 	{
-		reloadTimer = 0;
-		switch(GetActiveWeapon().type)
+		if(GetActiveWeapon().type == type)
 		{
-			case Weapon.WeaponType.Pistol:
-			case Weapon.WeaponType.Laser:
-				GetActiveWeapon().ammo.value = GetActiveWeapon().ammo.max;
-				state = WeaponState.Ready;
-				break;
-			/*
-			case Weapon.WeaponType.ParticleCannon:
-				if(GetActiveWeapon().ammo.value < GetActiveWeapon().ammo.max)
-				{
-					GetActiveWeapon().ammo.Extend(1);
-					state = WeaponState.Reloading;
-				}
-				else
-				{
-					state = WeaponState.Ready;
-				}
-				break;
-			*/
+			reloadTimer[(int)type] = 0;
+			switch(type)
+			{
+				case Weapon.WeaponType.Pistol:
+				case Weapon.WeaponType.Laser:
+					GetActiveWeapon().ammo.value = GetActiveWeapon().ammo.max;
+					state[(int)type] = WeaponState.Ready;
+					break;
+				/*
+				case Weapon.WeaponType.ParticleCannon:
+					if(GetActiveWeapon().ammo.value < GetActiveWeapon().ammo.max)
+					{
+						GetActiveWeapon().ammo.Extend(1);
+						state = WeaponState.Reloading;
+					}
+					else
+					{
+						state = WeaponState.Ready;
+					}
+					break;
+				*/
+			}
 		}
 	}
 
-	void OverheatDone()
+	void OverheatDone(Weapon.WeaponType type)
 	{
-		switch(GetActiveWeapon().type)
+		switch(type)
 		{
 			/*
 			case Weapon.WeaponType.ParticleCannon:
