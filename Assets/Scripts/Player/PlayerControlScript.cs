@@ -89,8 +89,9 @@ public class PlayerControlScript : MonoBehaviour
             }
         }
 
-        self.animator.SetFloat("HSpeedAbs", Mathf.Abs(Input.GetAxis("Horizontal") * self.status.movementSpeed));
-        self.animator.SetFloat("VSpeed", self.rigidbody.velocity.y);
+		self.animator.SetFloat("HSpeedAbs", Mathf.Abs(Input.GetAxis("Horizontal") * self.status.movementSpeed));
+		self.animator.SetFloat("VSpeed", self.rigidbody.velocity.y);
+		self.animator.SetBool("IsDoubleJumping", hasDoubleJumped);
 
         #endregion Movement
 
