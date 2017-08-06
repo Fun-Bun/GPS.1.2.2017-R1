@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class StationaryShootingEnemyController : MonoBehaviour
 {
-    [HideInInspector]
-    public PlayerManager player;
+	[HideInInspector]
+	public EnemyManager self;
+    private PlayerManager player;
 
-    public enum shooterState
+	public enum AIState
     {
         idle = 0,
         avgShoot,
@@ -15,8 +16,8 @@ public class StationaryShootingEnemyController : MonoBehaviour
         death
     }
 
-    [Header("Current Status")]
-    public shooterState state;
+    [Header("Status")]
+	public AIState state;
     public bool inAvgVicinity;
     public bool inArcShotVicinity;
 
@@ -38,8 +39,8 @@ public class StationaryShootingEnemyController : MonoBehaviour
     public GameObject arcProjectile;
 
     void Start()
-    {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
+	{
+		player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
         avgTimer = avgProjectileCD;
         arcTimer = arcProjectileCD;
     }
@@ -49,10 +50,7 @@ public class StationaryShootingEnemyController : MonoBehaviour
         avgTimer -= Time.deltaTime;
         arcTimer -= Time.deltaTime;
 
-        if(PauseMenuManagerScript.Instance.paused)
-        {
-            return;
-        }
+        if(PauseMenuManagerScript.Instance.paused) return;
 
         if(player != null)
         {
@@ -62,63 +60,63 @@ public class StationaryShootingEnemyController : MonoBehaviour
         }
 
         if(transform.position.x + buffer < player.transform.position.x)
-        {
-            this.transform.localScale = new Vector3(-0.5f,0.5f,1);
+		{
+			self.renderer.flipX = true;
         }
 
         else if(transform.position.x + buffer > player.transform.position.x)
-        {
-            this.transform.localScale = new Vector3(0.5f,0.5f,1);
+		{
+			self.renderer.flipX = false;
         }
 
         if(healthPoints <= 0)
         {
-            state = shooterState.death;
+			state = AIState.death;
         }
 
         switch(state)
         {
-            case shooterState.avgShoot:
+			case AIState.avgShoot:
                 if(avgTimer <= 0)
                     {
                         Debug.Log(state + " : Shooting Average shot now!");
                         //Play shooting animation
                         Instantiate(avgProjectile, shotPoint.position, shotPoint.rotation);
                         avgTimer = avgProjectileCD;
-                        state = shooterState.idle;
+						state = AIState.idle;
                     }
                 break;
 
-            case shooterState.arcShot:
+			case AIState.arcShot:
                     if(arcTimer <= 0)
                     {
                         Debug.Log(state + " : Shooting Arc shot now!");
                         //Play shooting animation
                         Throw(); // Instatiate projectile
                         arcTimer = arcProjectileCD;
-                        state = shooterState.idle;
+						state = AIState.idle;
                     }
                 break;
 
-            case shooterState.death:
+			case AIState.death:
                
                 //Play Death Animation
                 Destroy(gameObject);
                
                 break;
             
-            case shooterState.idle:
+			case AIState.idle:
             default:
                 //Play idle animation;
 
                 if(inAvgVicinity && !inArcShotVicinity)
                 {
-                    state = shooterState.avgShoot;
+					state = AIState.avgShoot;
                 }
 
                 else if(inArcShotVicinity)
                 {
-                    state = shooterState.arcShot;
+					state = AIState.arcShot;
                 }
 
                 Debug.Log(state + " : Currently Idle");
