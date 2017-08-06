@@ -12,7 +12,8 @@ public class EnemyStatusScript : MonoBehaviour
 	public float jumpHeight;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		
 	}
 	
@@ -22,7 +23,7 @@ public class EnemyStatusScript : MonoBehaviour
 		if(PauseMenuManagerScript.Instance.paused) return;
 		if(health.value <= 0)
 		{
-			self.controls.state = EnemyControlScript.AIState.Death;
+			self.controls.SetState(AIState.Death);
 		}
 	}
 }
