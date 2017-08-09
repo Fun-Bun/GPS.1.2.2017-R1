@@ -9,10 +9,9 @@ public class Item
 		None = -1,
 		A,
 		B,
-		C,
-		Total,
-
-		BlackFluid
+        C,
+        BlackFluid,
+		Total
 	};
 
     public Type type;
@@ -78,7 +77,7 @@ public class Item
 	{
 		switch(type)
 		{
-		case Type.None:
+		    case Type.None:
 				break;
 		}
 		return Weapon.WeaponType.None;

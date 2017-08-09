@@ -28,7 +28,7 @@ public class DroppedItemScript : MonoBehaviour
 	void SetItemSprite()
 	{
 		SpriteRenderer renderer = GetComponentInChildren<SpriteRenderer>();
-		if(Item.IsAbstractItemType(data.type))
+        if(Item.IsAbstractItemType(data.type))
 		{
 			renderer.sprite = null;
 			renderer.color = Color.clear;
