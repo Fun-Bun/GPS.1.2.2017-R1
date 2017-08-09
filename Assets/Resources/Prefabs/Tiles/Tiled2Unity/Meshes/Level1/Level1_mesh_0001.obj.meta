@@ -1,17 +1,17 @@
 fileFormatVersion: 2
-guid: 4c73d2cc8c129e7499f009631fce04f1
-timeCreated: 1500226508
-licenseType: Free
+guid: f309fa0e67d9cdc4fa4ea7912928fc28
+timeCreated: 1499412847
+licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: Battle-Room_Normal-2_mesh_0003
+    100000: Level1_mesh_0001
     100002: //RootNode
-    400000: Battle-Room_Normal-2_mesh_0003
+    400000: Level1_mesh_0001
     400002: //RootNode
-    2300000: Battle-Room_Normal-2_mesh_0003
-    3300000: Battle-Room_Normal-2_mesh_0003
-    4300000: Battle-Room_Normal-2_mesh_0003
+    2300000: Level1_mesh_0001
+    3300000: Level1_mesh_0001
+    4300000: Level1_mesh_0001
   materials:
     importMaterials: 0
     materialName: 0
