@@ -74,8 +74,23 @@ public class PlayerControlScript : MonoBehaviour
 		
 		if (moveSpeedFactor != 0f)
 		{
+			if(!isRolling)
+			{
+				SoundManagerScript.Instance.PlayLoopingSFX(AudioClipID.SFX_PL_WALKING);
+				//Stop roll Sound
+			}
+			else
+			{
+				SoundManagerScript.Instance.StopLoopingSFX(AudioClipID.SFX_PL_WALKING);
+				//Play roll Sound
+			}
 			transform.Translate(Vector3.right * moveSpeedFactor * self.status.movementSpeed * Time.deltaTime);
 			//self.renderer.flipX = moveSpeedFactor > 0;
+		}
+		else
+		{
+			SoundManagerScript.Instance.StopLoopingSFX(AudioClipID.SFX_PL_WALKING);
+			//Stop roll Sound
 		}
 		
 		#endregion Movement
@@ -198,6 +213,7 @@ public class PlayerControlScript : MonoBehaviour
             {
                 self.rigidbody.velocity = Vector2.zero;
                 self.rigidbody.AddForce(Vector2.up * self.status.jumpHeight, ForceMode2D.Impulse);
+				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_JUMPING);
             }
         }
 
