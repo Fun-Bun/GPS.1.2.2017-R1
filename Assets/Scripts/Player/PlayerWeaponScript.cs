@@ -199,7 +199,7 @@ public class PlayerWeaponScript : MonoBehaviour
 
 						animator.Play("Gun_Default_Shoot", 0, 0.0f);
 
-						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
+						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGLASER);
 
 						GetActiveWeapon().ammo.Reduce(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].ammoPerShot);
 
