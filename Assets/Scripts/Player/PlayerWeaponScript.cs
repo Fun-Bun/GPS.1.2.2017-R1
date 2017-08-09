@@ -59,6 +59,8 @@ public class PlayerWeaponScript : MonoBehaviour
 		weaponList.RemoveAt(0);
 		weaponList.Add(weapon);
 
+		animator.SetBool("IsLaser", weaponList[0].type == Weapon.WeaponType.Laser);
+
 		isSwitching = true;
 	}
 
@@ -129,6 +131,7 @@ public class PlayerWeaponScript : MonoBehaviour
 
 			self.ui.SetReload(state[(int)GetActiveWeapon().type] == WeaponState.Reloading);
 			self.ui.SetSwitch(isSwitching);
+			animator.SetBool("IsSwitching", isSwitching);
 		}
 	}
 	
@@ -197,7 +200,7 @@ public class PlayerWeaponScript : MonoBehaviour
 
 						Instantiate(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].projectile, fireSpot.transform);
 
-						animator.Play("Gun_Default_Shoot", 0, 0.0f);
+						animator.Play("Gun_Laser_Shoot", 0, 0.0f);
 
 						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
 
