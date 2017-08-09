@@ -20,6 +20,7 @@ public class DoorScript : MonoBehaviour
 	public TutorialScript tutorial;
 	
 	private Vector3 camPos;
+	private Transform playerTrans;
 
 	// Use this for initialization
 	void Start ()
@@ -27,6 +28,7 @@ public class DoorScript : MonoBehaviour
 		animator = GetComponent<Animator>();
 		camPos = transform.parent.position;
 		camPos.z = -10.0f;
+		playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 	
 	// Update is called once per frame
@@ -77,5 +79,17 @@ public class DoorScript : MonoBehaviour
 	void OnTriggerExit2D(Collider2D other)
 	{
 		showTutorial = false;
+	}
+
+	public void PlayOpenDoorSound()
+	{
+		if(Vector3.Distance(playerTrans.position, transform.position) <= 6.0f)
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CD_OPENDOOR);
+	}
+
+	public void PlayCloseDoorSound()
+	{
+		if(Vector3.Distance(playerTrans.position, transform.position) <= 6.0f)
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CD_CLOSEDOOR);
 	}
 }

@@ -10,6 +10,7 @@ public class KillFloorScript : MonoBehaviour
 		if(other.GetComponent<PlayerManager>())
 		{
 			other.GetComponent<PlayerManager>().status.health.value = 0;
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_RECEIVEDDMG);
 		}
 		else if(other.GetComponent<EnemyManager>())
 		{

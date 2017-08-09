@@ -63,6 +63,16 @@ public class PlayerStatusScript : MonoBehaviour
 		{
 			isHit = true;
 			invincibleTimer = 0.0f;
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_RECEIVEDDMG);
+		}
+	}
+
+	void OnCollisionStay2D(Collision2D col)
+	{
+		if(col.collider.transform.parent.tag == "Spikes")
+		{
+			health.Reduce(1);
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_RECEIVEDDMG);
 		}
 	}
 }

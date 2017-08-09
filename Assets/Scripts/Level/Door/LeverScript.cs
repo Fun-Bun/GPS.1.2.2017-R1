@@ -40,6 +40,7 @@ public class LeverScript : MonoBehaviour
 			{
 				isActive = !isActive;
 				door.isOpened = isActive;
+				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CONTROLP_LACTIVATED);
 				player.controls.interacting = false;
 			}
 		}
