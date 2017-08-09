@@ -21,10 +21,6 @@ public class PlayerStatusScript : MonoBehaviour
 	public float invincibleTimer;
 	public float invincibleDuration;
 
-	[Header("Respawn")]
-	public string respawnScene;
-	public string quitScene;
-
 	void Awake()
 	{
 		//healthDeplete.resource = health;
@@ -50,13 +46,15 @@ public class PlayerStatusScript : MonoBehaviour
 	}
 
 	public void Respawn()
-	{
-		SceneManager.LoadScene(respawnScene);
+    {
+        Destroy(gameObject);
+		SceneManager.LoadScene(self.respawnScene);
 	}
 
 	public void Quit()
-	{
-		SceneManager.LoadScene(quitScene);
+    {
+        Destroy(gameObject);
+		SceneManager.LoadScene(self.quitScene);
 	}
 
 	public void ApplyInvincibility()

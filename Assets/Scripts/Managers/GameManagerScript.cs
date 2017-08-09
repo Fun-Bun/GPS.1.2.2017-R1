@@ -32,6 +32,8 @@ public class GameManagerScript : MonoBehaviour
 	}
 	#endregion Singleton
 
+    public InventoryScript playerInventory;
+
 	void Awake()
 	{
 		if(GameManagerScript.CheckInstanceExist())

@@ -25,11 +25,11 @@ public class PlayerUIScript : MonoBehaviour
 	public Image laserIndicator;
 
 	public GameObject deadImage;
+	public Text moneyText;
 
 	// Use this for initialization
 	void Start ()
 	{
-		GetComponent<Canvas>().worldCamera = Camera.main;
 		healthImages = new List<Image>(healthUI.GetComponentsInChildren<Image>());
 		healthImages.RemoveAt(0);
 		weaponImage = weaponUI.GetComponentsInChildren<Image>()[1];
@@ -39,11 +39,17 @@ public class PlayerUIScript : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update ()
-	{
+    {
+        GetComponent<Canvas>().worldCamera = Camera.main;
 		if(PauseMenuManagerScript.Instance.paused) return;
 		UpdateHealth();
 		UpdateWeapon();
 		UpdateIndicators();
+	}
+
+	void OnGUI()
+	{
+		if(moneyText != null) moneyText.text = self.inventory.money.ToString ();
 	}
 
     public void UpdateHealth()

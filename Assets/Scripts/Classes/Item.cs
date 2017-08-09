@@ -4,17 +4,21 @@
 public class Item
 {
 	[System.Serializable]
-	public enum ItemType
+	public enum Type
 	{
 		None = -1,
-		BlackFluid = 0,
-		TotalItems
+		A,
+		B,
+		C,
+		Total,
+
+		BlackFluid
 	};
 
-    public ItemType type;
+    public Type type;
 	public int amount;
 
-	public Item(ItemType type, int amount = 0)
+	public Item(Type type, int amount = 0)
 	{
 		this.type = type;
 		this.amount = amount;
@@ -25,10 +29,20 @@ public class Item
 		return GetName(type);
 	}
 
-	public static string GetName(ItemType type)
+	public static string GetName(Type type)
 	{
 		if(IsAbstractItemType(type)) return null;
 		return StorageManagerScript.Instance.items.settings[(int) type].name;
+	}
+
+	public static int GetPrice(Type type)
+	{
+		return StorageManagerScript.Instance.items.settings[(int) type].price;
+	}
+
+	public int GetPrice()
+	{
+		return GetPrice(type);
 	}
 
 	public string GetDesc()
@@ -36,7 +50,7 @@ public class Item
 		return GetDesc(type);
 	}
 
-	public static string GetDesc(ItemType type)
+	public static string GetDesc(Type type)
 	{
 		if(IsAbstractItemType(type)) return null;
 		return StorageManagerScript.Instance.items.settings[(int) type].description;
@@ -47,24 +61,24 @@ public class Item
 		return GetSprite(type);
 	}
 
-	public static Sprite GetSprite(ItemType type)
+	public static Sprite GetSprite(Type type)
 	{
 		if(IsAbstractItemType(type)) return null;
 		return StorageManagerScript.Instance.items.settings[(int) type].sprite;
 	}
 
-	public static bool IsAbstractItemType(ItemType type)
+	public static bool IsAbstractItemType(Type type)
 	{
-		if(type == ItemType.None) return true;
-		if((int)type >= (int)ItemType.TotalItems) return true;
+		if(type == Type.None) return true;
+		if((int)type >= (int)Type.Total) return true;
 		return false;
 	}
 
-	public static Weapon.WeaponType ToWeapon(ItemType type)
+	public static Weapon.WeaponType ToWeapon(Type type)
 	{
 		switch(type)
 		{
-			case ItemType.None:
+		case Type.None:
 				break;
 		}
 		return Weapon.WeaponType.None;

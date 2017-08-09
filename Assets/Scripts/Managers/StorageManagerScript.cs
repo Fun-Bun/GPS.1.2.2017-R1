@@ -14,12 +14,14 @@ public class SpriteStorage
 public class ItemSettings
 {
 	public string name;
+	public int price;
 	public string description;
 	public Sprite sprite;
 
 	public ItemSettings()
 	{
 		name = "";
+		price = 0;
 		description = "";
 		sprite = null;
 	}

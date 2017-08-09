@@ -5,7 +5,7 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class DroppedItemScript : MonoBehaviour
 {
-	private Item.ItemType prevType = Item.ItemType.None;
+	private Item.Type prevType = Item.Type.None;
 	public Item data;
 
 	void Update()
@@ -18,7 +18,7 @@ public class DroppedItemScript : MonoBehaviour
 		}
 	}
 
-	void SetItemData(Item.ItemType type, int amount)
+	void SetItemData(Item.Type type, int amount)
 	{
 		data.type = type;
 		data.amount = amount;

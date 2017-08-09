@@ -2,6 +2,36 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class SceneList
+{
+    public List<string> keyScene;
+    public List<string> valueScene;
+
+    public SceneList()
+    {
+        keyScene = new List<string>();
+        valueScene = new List<string>();
+    }
+
+    public bool ContainsKey(string key)
+    {
+        return keyScene.Contains(key);
+    }
+
+    public string GetValue(string key)
+    {
+        if(ContainsKey(key))
+        {
+            return valueScene[keyScene.IndexOf(key)];
+        }
+        else
+        {
+            return null;
+        }
+    }
+}
+
 public class PlayerManager : MonoBehaviour
 {
 	[Header("System")]
@@ -13,11 +43,15 @@ public class PlayerManager : MonoBehaviour
     [Header("Developer")]
 	public PlayerControlScript controls;
 	public PlayerStatusScript status;
-	public PlayerInventoryScript inventory;
 	public PlayerWeaponScript weapon;
 	public PlayerUIScript ui;
 	public PlayerLandboxScript landbox;
-	public PlatformReceiverScript platformReceiver;
+    public PlatformReceiverScript platformReceiver;
+    public InventoryScript inventory {get { return GameManagerScript.Instance.playerInventory; }}
+
+    [Header("Respawn")]
+    public string respawnScene;
+    public string quitScene;
 
 	// Use this for initialization
 	void Start ()
@@ -29,7 +63,6 @@ public class PlayerManager : MonoBehaviour
 
 		controls = GetComponent<PlayerControlScript>();
 		status = GetComponent<PlayerStatusScript>();
-		inventory = GetComponent<PlayerInventoryScript>();
 		weapon = GetComponentInChildren<PlayerWeaponScript>();
 		ui = GetComponentInChildren<PlayerUIScript>();
 		landbox = GetComponentInChildren<PlayerLandboxScript>();
@@ -37,7 +70,6 @@ public class PlayerManager : MonoBehaviour
 
 		if (controls    != null)   controls.self    = this;
 		if (status      != null)   status.self      = this;
-		if (inventory   != null)   inventory.self   = this;
 		if (weapon   	!= null)   weapon.self   	= this;
 		if (ui		   	!= null)   ui.self   		= this;
 		if (landbox     != null)   landbox.self     = this;

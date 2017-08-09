@@ -97,13 +97,13 @@ public class Weapon
 		return false;
 	}
 
-	public static Item.ItemType ToItem(WeaponType type)
+	public static Item.Type ToItem(WeaponType type)
 	{
 		switch(type)
 		{
 			case WeaponType.None:
 				break;
 		}
-		return Item.ItemType.None;
+		return Item.Type.None;
 	}
 }
