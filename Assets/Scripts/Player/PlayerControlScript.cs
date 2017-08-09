@@ -74,15 +74,23 @@ public class PlayerControlScript : MonoBehaviour
 		
 		if (moveSpeedFactor != 0f)
 		{
-			if(!isRolling)
+			if(grounded)
 			{
-				SoundManagerScript.Instance.PlayLoopingSFX(AudioClipID.SFX_PL_WALKING);
-				//Stop roll Sound
+				if(!isRolling)
+				{
+					SoundManagerScript.Instance.PlayLoopingSFX(AudioClipID.SFX_PL_WALKING);
+					//Stop roll Sound
+				}
+				else
+				{
+					SoundManagerScript.Instance.StopLoopingSFX(AudioClipID.SFX_PL_WALKING);
+					//Play roll Sound
+				}
 			}
 			else
 			{
 				SoundManagerScript.Instance.StopLoopingSFX(AudioClipID.SFX_PL_WALKING);
-				//Play roll Sound
+				//Stop roll Sound
 			}
 			transform.Translate(Vector3.right * moveSpeedFactor * self.status.movementSpeed * Time.deltaTime);
 			//self.renderer.flipX = moveSpeedFactor > 0;
