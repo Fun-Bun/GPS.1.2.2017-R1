@@ -284,6 +284,7 @@ public class PlayerControlScript : MonoBehaviour
 
     public void SetGround(bool isGrounded)
     {
+		if(!grounded && isGrounded) SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_LANDING);
         grounded = isGrounded;
         if (grounded) hasDoubleJumped = false;
         self.animator.SetBool("Grounded", grounded);

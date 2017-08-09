@@ -1,21 +1,19 @@
 fileFormatVersion: 2
-guid: 45d1e17071d46b54ba3056990348ad80
-timeCreated: 1502289667
+guid: 3cdf4a7103d466745802831a95147e36
+timeCreated: 1502286584
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Spitter_Monster_Egg_Transform_Sheet_0
-    21300002: Spitter_Monster_Egg_Transform_Sheet_1
-    21300004: Spitter_Monster_Egg_Transform_Sheet_2
-    21300006: Spitter_Monster_Egg_Transform_Sheet_3
-    21300008: Spitter_Monster_Egg_Transform_Sheet_4
-    21300010: Spitter_Monster_Egg_Transform_Sheet_5
-    21300012: Spitter_Monster_Egg_Transform_Sheet_6
-    21300014: Spitter_Monster_Egg_Transform_Sheet_7
-    21300016: Spitter_Monster_Egg_Transform_Sheet_8
-    21300018: Spitter_Monster_Egg_Transform_Sheet_9
-    21300020: Spitter_Monster_Egg_Transform_Sheet_10
-    21300022: Spitter_Monster_Egg_Transform_Sheet_11
+    21300000: Gun_Transformation_Lazer_Sheet_0
+    21300002: Gun_Transformation_Lazer_Sheet_1
+    21300004: Gun_Transformation_Lazer_Sheet_2
+    21300006: Gun_Transformation_Lazer_Sheet_3
+    21300008: Gun_Transformation_Lazer_Sheet_4
+    21300010: Gun_Transformation_Lazer_Sheet_5
+    21300012: Gun_Transformation_Lazer_Sheet_6
+    21300014: Gun_Transformation_Lazer_Sheet_7
+    21300016: Gun_Transformation_Lazer_Sheet_8
+    21300018: Gun_Transformation_Lazer_Sheet_9
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -78,7 +76,23 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
   - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
     maxTextureSize: 2048
     textureFormat: -1
     textureCompression: 0
@@ -90,158 +104,132 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_0
+      name: Gun_Transformation_Lazer_Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_1
+      name: Gun_Transformation_Lazer_Sheet_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_2
+      name: Gun_Transformation_Lazer_Sheet_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_3
+      name: Gun_Transformation_Lazer_Sheet_3
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_4
+      name: Gun_Transformation_Lazer_Sheet_4
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_5
+      name: Gun_Transformation_Lazer_Sheet_5
       rect:
         serializedVersion: 2
         x: 160
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_6
+      name: Gun_Transformation_Lazer_Sheet_6
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_7
+      name: Gun_Transformation_Lazer_Sheet_7
       rect:
         serializedVersion: 2
         x: 224
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_8
+      name: Gun_Transformation_Lazer_Sheet_8
       rect:
         serializedVersion: 2
         x: 256
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_9
+      name: Gun_Transformation_Lazer_Sheet_9
       rect:
         serializedVersion: 2
         x: 288
         y: 0
         width: 32
         height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_10
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Spitter_Monster_Egg_Transform_Sheet_11
-      rect:
-        serializedVersion: 2
-        x: 352
-        y: 0
-        width: 32
-        height: 32
-      alignment: 7
-      pivot: {x: 0.5, y: 0}
+      alignment: 9
+      pivot: {x: 0.705, y: 0.5175}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
