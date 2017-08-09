@@ -18,7 +18,8 @@ public class EnemyStatusScript : MonoBehaviour
 	public float invincibleDuration;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		
 	}
 	
@@ -29,7 +30,7 @@ public class EnemyStatusScript : MonoBehaviour
 
 		if(health.value <= 0)
 		{
-			self.controls.state = EnemyControlScript.AIState.Death;
+			self.controls.SetState(AIState.Death);
 		}
 
 		if(isHit)

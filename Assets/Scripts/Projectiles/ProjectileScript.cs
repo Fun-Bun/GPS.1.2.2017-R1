@@ -40,9 +40,18 @@ public class ProjectileScript : MonoBehaviour
 
 						enemy.status.health.Reduce(1);
 						enemy.controls.SetTargetToPlayer();
-						enemy.controls.triggerRange = 6.0f;
+						enemy.controls.SetTriggerRange(6.0f);
 
 						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_MS_RECEIVEDMG);
+					}
+					else if(other.GetComponent<MonsterEggScript>())
+					{
+						Instantiate(StorageManagerScript.Instance.enemies.bloodSplatterFX, transform.position, transform.rotation);
+						MonsterEggScript enemy = other.GetComponent<MonsterEggScript>();
+
+						enemy.health.Reduce(1);
+
+//						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_MS_RECEIVEDMG);
 					}
 
 					Destroy(gameObject);
@@ -55,19 +64,28 @@ public class ProjectileScript : MonoBehaviour
 						if(!enemy.status.isHit)
 						{
 							Instantiate(StorageManagerScript.Instance.enemies.bloodSplatterFX, transform.position, transform.rotation);
-							enemy.status.health.Reduce(1);
+							enemy.status.health.Reduce(3);
 							enemy.status.isHit = true;
 							enemy.controls.SetTargetToPlayer();
-							enemy.controls.triggerRange = 6.0f;
+							enemy.controls.SetTriggerRange(6.0f);
 
 							SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_MS_RECEIVEDMG);
 						}
 					}
+					else if(other.GetComponent<MonsterEggScript>())
+					{
+						Instantiate(StorageManagerScript.Instance.enemies.bloodSplatterFX, transform.position, transform.rotation);
+						MonsterEggScript enemy = other.GetComponent<MonsterEggScript>();
+
+						enemy.health.Reduce(3);
+
+//						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_MS_RECEIVEDMG);
+					}
+
+					if(++enemiesHit >= StorageManagerScript.Instance.weapons.settings[(int)type].maxTargets)
+						isHit = true;
 					break;
 			}
-
-			if(++enemiesHit >= StorageManagerScript.Instance.weapons.settings[(int)type].maxTargets)
-				isHit = true;
 		}
 	}
 
