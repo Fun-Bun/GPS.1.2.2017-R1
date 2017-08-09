@@ -38,7 +38,8 @@ public class PlayerControlScript : MonoBehaviour
 	public bool isRolling;
 	private float rollTimer = 0.0f;
 	public bool rollReady;
-	private float rollCooldownTimer = 0.0f;
+	private float rollDirectionFactor = 0.0f;
+	public float rollCooldownTimer = 0.0f;
 	public float rollCooldownDuration;
 
 	[Header("Settings")]
@@ -69,7 +70,7 @@ public class PlayerControlScript : MonoBehaviour
 		if(!isRolling)
 			moveSpeedFactor = Input.GetAxis(inputHorizontal);
 		else
-			moveSpeedFactor = 2.0f * Mathf.Sign(Input.GetAxis(inputHorizontal));
+			moveSpeedFactor = 2.0f * rollDirectionFactor;
 		
 		if (moveSpeedFactor != 0f)
 		{
@@ -91,13 +92,41 @@ public class PlayerControlScript : MonoBehaviour
 			{
 				if(rollReady)
 				{
-					if(grounded && Mathf.Abs(moveSpeedFactor) >= 0.5f)
+					if(grounded)
 					{
+						if(hasPressedLeft)
+						{
+							leftTimer += Time.deltaTime;
+							if(leftTimer >= 0.25f)
+							{
+								hasPressedLeft = false;
+							}
+						}
+						else
+						{
+							leftTimer = 0.0f;
+						}
+
+						if(hasPressedRight)
+						{
+							rightTimer += Time.deltaTime;
+							if(rightTimer >= 0.25f)
+							{
+								hasPressedRight = false;
+							}
+						}
+						else
+						{
+							rightTimer = 0.0f;
+						}
+
 						if(Input.GetButtonDown(inputLeft) && !self.renderer.flipX)
 						{
+							hasPressedRight = false;
 							if(hasPressedLeft)
 							{
 								isRolling = true;
+								rollDirectionFactor = -1.0f;
 								rollReady = false;
 								hasPressedLeft = false;
 							}
@@ -108,35 +137,17 @@ public class PlayerControlScript : MonoBehaviour
 						}
 						else if(Input.GetButtonDown(inputRight) && self.renderer.flipX)
 						{
+							hasPressedLeft = false;
 							if(hasPressedRight)
 							{
 								isRolling = true;
+								rollDirectionFactor = 1.0f;
 								rollReady = false;
 								hasPressedRight = false;
 							}
 							else
 							{
 								hasPressedRight = true;
-							}
-						}
-
-						if(hasPressedLeft)
-						{
-							leftTimer += Time.deltaTime;
-							if(leftTimer >= 1.0f)
-							{
-								hasPressedLeft = false;
-								leftTimer = 0.0f;
-							}
-						}
-
-						if(hasPressedRight)
-						{
-							rightTimer += Time.deltaTime;
-							if(rightTimer >= 1.0f)
-							{
-								hasPressedRight = false;
-								rightTimer = 0.0f;
 							}
 						}
 					}
@@ -164,9 +175,16 @@ public class PlayerControlScript : MonoBehaviour
 
         if (Input.GetButtonDown(inputJump))
         {
+			hasPressedLeft = false;
+			hasPressedRight = false;
+
             bool canJump = false;
 
-            if (grounded)
+			if (isRolling)
+			{
+				canJump = false;
+			}
+            else if (grounded)
             {
                 canJump = true;
             }

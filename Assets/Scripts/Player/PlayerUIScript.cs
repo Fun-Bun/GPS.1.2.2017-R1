@@ -21,6 +21,9 @@ public class PlayerUIScript : MonoBehaviour
 	public GameObject ammoUI_bullet;
 	private List<Image> ammoImages_bullet;
 
+	public Image combatRollIndicator;
+	public Image laserIndicator;
+
 	public GameObject deadImage;
 
 	// Use this for initialization
@@ -40,6 +43,7 @@ public class PlayerUIScript : MonoBehaviour
 		if(PauseMenuManagerScript.Instance.paused) return;
 		UpdateHealth();
 		UpdateWeapon();
+		UpdateIndicators();
 	}
 
     public void UpdateHealth()
@@ -102,6 +106,33 @@ public class PlayerUIScript : MonoBehaviour
 					}
 					break;
 			}
+		}
+	}
+
+	void UpdateIndicators()
+	{
+		if(self.controls.rollReady)
+		{
+			combatRollIndicator.fillAmount = 1.0f;
+			combatRollIndicator.color = Color.white;
+		}
+		else
+		{
+			combatRollIndicator.fillAmount = self.controls.rollCooldownTimer / self.controls.rollCooldownDuration;
+			combatRollIndicator.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+		}
+
+		int laserIndex = (int)Weapon.WeaponType.Laser;
+
+		if(self.weapon.state[laserIndex] == PlayerWeaponScript.WeaponState.Ready)
+		{
+			laserIndicator.fillAmount = 1.0f;
+			laserIndicator.color = Color.white;
+		}
+		else
+		{
+			laserIndicator.fillAmount = self.weapon.reloadTimer[laserIndex] / StorageManagerScript.Instance.weapons.settings[laserIndex].reloadDuration;
+			laserIndicator.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 		}
 	}
 

@@ -52,6 +52,9 @@ public class PlayerWeaponScript : MonoBehaviour
 	{
 		if(weaponList.Count <= 1) return;
 
+		if(weaponList[1].type == Weapon.WeaponType.Laser && state[(int)Weapon.WeaponType.Laser] != WeaponState.Ready)
+			return;
+
 		Weapon weapon = weaponList[0];
 		weaponList.RemoveAt(0);
 		weaponList.Add(weapon);
@@ -213,19 +216,7 @@ public class PlayerWeaponScript : MonoBehaviour
 	void CooldownDone(Weapon.WeaponType type)
 	{
 		cooldownTimer[(int)type] = 0;
-		switch(type)
-		{
-			case Weapon.WeaponType.Pistol:
-			case Weapon.WeaponType.Laser:
-				state[(int)type] = WeaponState.Ready;
-				break;
-			/*
-			case Weapon.WeaponType.ParticleCannon:
-				if(GetActiveWeapon().ammo.value < GetActiveWeapon().ammo.max) state = WeaponState.Reloading;
-				else state = WeaponState.Ready;
-				break;
-			*/
-		}
+		state[(int)type] = WeaponState.Ready;
 	}
 
 	public void Reload()
@@ -249,74 +240,37 @@ public class PlayerWeaponScript : MonoBehaviour
 				break;
 			*/
 		}
+
+		if(GetActiveWeapon().type == Weapon.WeaponType.Laser)
+			CycleWeapon();
 	}
 
 	void ReloadDone(Weapon.WeaponType type)
 	{
-		if(GetActiveWeapon().type == type)
+		reloadTimer[(int)type] = 0;
+
+		for(int i = 0; i < weaponList.Count; i++)
 		{
-			reloadTimer[(int)type] = 0;
-			switch(type)
-			{
-				case Weapon.WeaponType.Pistol:
-				case Weapon.WeaponType.Laser:
-					GetActiveWeapon().ammo.value = GetActiveWeapon().ammo.max;
-					state[(int)type] = WeaponState.Ready;
-					break;
-				/*
-				case Weapon.WeaponType.ParticleCannon:
-					if(GetActiveWeapon().ammo.value < GetActiveWeapon().ammo.max)
-					{
-						GetActiveWeapon().ammo.Extend(1);
-						state = WeaponState.Reloading;
-					}
-					else
-					{
-						state = WeaponState.Ready;
-					}
-					break;
-				*/
-			}
+			if(weaponList[i].type == type)
+				weaponList[i].ammo.value = weaponList[i].ammo.max;
 		}
+
+		state[(int)type] = WeaponState.Ready;
 	}
 
 	void OverheatDone(Weapon.WeaponType type)
 	{
-		switch(type)
-		{
-			/*
-			case Weapon.WeaponType.ParticleCannon:
-				overheatTimer = 0;
-				state = WeaponState.Reloading;
-				break;
-			*/
-		}
+		
 	}
 
 	public void CheckRemainingBullet()
 	{
 		if(GetActiveWeapon() != null)
 		{
-			switch(GetActiveWeapon().type)
+			if(GetActiveWeapon().ammo.value <= 0)
 			{
-				case Weapon.WeaponType.Pistol:
-				case Weapon.WeaponType.Laser:
-					if(GetActiveWeapon().ammo.value <= 0)
-					{
-						GetActiveWeapon().ammo.value = 0;
-						Reload();
-					}
-					break;
-				/*
-				case Weapon.WeaponType.ParticleCannon:
-					if(GetActiveWeapon().ammo.value <= 0)
-					{
-						GetActiveWeapon().ammo.value = 0;
-	                    overheatTimer = 0;
-						state = WeaponState.Overheat;
-					}
-					break;
-				*/
+				GetActiveWeapon().ammo.value = 0;
+				Reload();
 			}
 		}
 	}
