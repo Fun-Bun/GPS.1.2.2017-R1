@@ -21,11 +21,19 @@ public class PlayerUIScript : MonoBehaviour
 	public GameObject ammoUI_bullet;
 	private List<Image> ammoImages_bullet;
 
+	public GameObject combatRollPanel;
+	public GameObject laserPanel;
+	public GameObject vaccinePanel;
+	public GameObject mpaPanel;
 	public Image combatRollIndicator;
 	public Image laserIndicator;
+	public Image combatRollIcon;
+	public Image laserIcon;
+	public Text vaccineCountText;
+	public Text mpaCountText;
+	public Text currencyText;
 
 	public GameObject deadImage;
-	public Text moneyText;
 
 	// Use this for initialization
 	void Start ()
@@ -45,11 +53,6 @@ public class PlayerUIScript : MonoBehaviour
 		UpdateHealth();
 		UpdateWeapon();
 		UpdateIndicators();
-	}
-
-	void OnGUI()
-	{
-		if(moneyText != null) moneyText.text = self.inventory.money.ToString ();
 	}
 
     public void UpdateHealth()
@@ -106,6 +109,7 @@ public class PlayerUIScript : MonoBehaviour
 						ammoImages_bullet[i].GetComponent<Animator>().SetInteger("AmmoCount", displayCount);
 						ammoImages_bullet[i].GetComponent<Animator>().SetBool("IsLaser", self.weapon.GetActiveWeapon().type == Weapon.WeaponType.Laser);
 						ammoImages_bullet[i].GetComponent<Animator>().SetBool("IsSwitching", self.weapon.isSwitching);
+						ammoImages_bullet[i].GetComponent<Animator>().SetBool("IsEmpowered", self.weapon.empoweredBullet >= self.weapon.GetActiveWeapon().ammo.value - i);
 //						ammoImages_bullet[i].sprite = StorageManagerScript.Instance.sprites.playerAmmo[displayCount];
 //						if(displayCount > 0) ammoImages_bullet[i].color = Color.white;
 //						else ammoImages_bullet[i].color = Color.clear;
@@ -120,26 +124,60 @@ public class PlayerUIScript : MonoBehaviour
 		if(self.controls.rollReady)
 		{
 			combatRollIndicator.fillAmount = 1.0f;
-			combatRollIndicator.color = Color.white;
+			combatRollIcon.fillAmount = 1.0f;
 		}
 		else
 		{
 			combatRollIndicator.fillAmount = self.controls.rollCooldownTimer / self.controls.rollCooldownDuration;
-			combatRollIndicator.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+			combatRollIcon.fillAmount = self.controls.rollCooldownTimer / self.controls.rollCooldownDuration;
 		}
 
-		int laserIndex = (int)Weapon.WeaponType.Laser;
-
-		if(self.weapon.state[laserIndex] == PlayerWeaponScript.WeaponState.Ready)
+		if(self.inventory.HasEnoughItems(Item.Type.C, 1))
 		{
-			laserIndicator.fillAmount = 1.0f;
-			laserIndicator.color = Color.white;
+			laserPanel.SetActive(true);
+			int laserIndex = (int)Weapon.WeaponType.Laser;
+
+			if(self.weapon.state[laserIndex] == PlayerWeaponScript.WeaponState.Ready)
+			{
+				laserIndicator.fillAmount = 1.0f;
+				laserIcon.fillAmount = 1.0f;
+			}
+			else
+			{
+				laserIndicator.fillAmount = self.weapon.reloadTimer[laserIndex] / StorageManagerScript.Instance.weapons.settings[laserIndex].reloadDuration;
+				laserIcon.fillAmount = self.weapon.reloadTimer[laserIndex] / StorageManagerScript.Instance.weapons.settings[laserIndex].reloadDuration;
+			}
 		}
 		else
 		{
-			laserIndicator.fillAmount = self.weapon.reloadTimer[laserIndex] / StorageManagerScript.Instance.weapons.settings[laserIndex].reloadDuration;
-			laserIndicator.color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
+			laserPanel.SetActive(false);
 		}
+
+		int vacCount = self.inventory.itemInventory[(int)Item.Type.A].amount;
+		if(vacCount > 0)
+		{
+			vaccinePanel.SetActive(true);
+			vaccineCountText.text = vacCount.ToString("00");
+		}
+		else
+		{
+			vaccinePanel.SetActive(false);
+			vaccineCountText.text = "--";
+		}
+
+		int mpaCount = self.inventory.itemInventory[(int)Item.Type.B].amount;
+		if(mpaCount > 0)
+		{
+			mpaPanel.SetActive(true);
+			mpaCountText.text = mpaCount.ToString("00");
+		}
+		else
+		{
+			mpaPanel.SetActive(false);
+			mpaCountText.text = "--";
+		}
+
+		currencyText.text = self.inventory.money.ToString();
 	}
 
 	public void SetReload(bool isReloading)

@@ -36,6 +36,9 @@ public class PlayerWeaponScript : MonoBehaviour
 	public float coneScaleDownwards = 0.75f;
 	public bool isSwitching;
 
+	[Header("Special")]
+	public int empoweredBullet;
+
 	public Weapon GetActiveWeapon()
 	{
 		if(weaponList.Count < 1) return null;
@@ -132,6 +135,7 @@ public class PlayerWeaponScript : MonoBehaviour
 			self.ui.SetReload(state[(int)GetActiveWeapon().type] == WeaponState.Reloading);
 			self.ui.SetSwitch(isSwitching);
 			animator.SetBool("IsSwitching", isSwitching);
+			animator.SetBool("IsEmpowered", empoweredBullet > 0);
 		}
 	}
 	
@@ -179,7 +183,9 @@ public class PlayerWeaponScript : MonoBehaviour
 						direction.Normalize ();
 						float angle = Mathf.Atan2 (direction.y, direction.x) * Mathf.Rad2Deg - 180.0f;
 
-						Instantiate(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].projectile, fireSpot.position, Quaternion.Euler(0f, 0f, angle));
+						GameObject newBullet = Instantiate(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].projectile, fireSpot.position, Quaternion.Euler(0f, 0f, angle));
+						newBullet.GetComponent<ProjectileScript>().SetEmpowered(empoweredBullet > 0);
+						if(empoweredBullet > 0) empoweredBullet--;
 
 						animator.Play("Gun_Default_Shoot", 0, 0.0f);
 

@@ -7,6 +7,8 @@ public class ProjectileScript : MonoBehaviour
 	public Weapon.WeaponType type;
 	public float speed;
 	private bool isHit;
+	public bool empowered;
+	public Animator animator;
 	private int enemiesHit;
 
 	void Start()
@@ -24,6 +26,12 @@ public class ProjectileScript : MonoBehaviour
 		}
 	}
 
+	public void SetEmpowered(bool newBool)
+	{
+		empowered = newBool;
+		animator.SetBool("IsEmpowered", empowered);
+	}
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if(!isHit && !other.isTrigger && !other.GetComponent<PlayerManager>())
@@ -31,14 +39,14 @@ public class ProjectileScript : MonoBehaviour
 			switch(type)
 			{
 				case Weapon.WeaponType.Pistol:
-					Instantiate(StorageManagerScript.Instance.weapons.settings[(int)type].hitFX, transform.position, transform.rotation);
+					Instantiate(StorageManagerScript.Instance.weapons.settings[(int)type].hitFX, transform.position, transform.rotation).GetComponent<Animator>().SetBool("IsEmpowered", empowered);
 
 					if(other.GetComponent<EnemyManager>())
 					{
 						Instantiate(StorageManagerScript.Instance.enemies.bloodSplatterFX, transform.position, transform.rotation);
 						EnemyManager enemy = other.GetComponent<EnemyManager>();
 
-						enemy.status.health.Reduce(1);
+						enemy.status.health.Reduce((empowered ? 2 : 1));
 						enemy.controls.SetTargetToPlayer();
 						enemy.controls.SetTriggerRange(6.0f);
 

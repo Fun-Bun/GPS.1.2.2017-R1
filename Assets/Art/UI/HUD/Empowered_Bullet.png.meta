@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9d5689a5f2ae8354aaa4f14030cd607e
-timeCreated: 1502403446
+guid: bb6494fec66a71741a09742fae1b2ba4
+timeCreated: 1500118257
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: CombatRoll_0
+    21300000: DefaultGun_Bullet_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -95,13 +95,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CombatRoll_0
+      name: DefaultGun_Bullet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

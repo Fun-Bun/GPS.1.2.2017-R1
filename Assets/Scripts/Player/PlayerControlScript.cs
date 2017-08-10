@@ -15,14 +15,9 @@ public class PlayerControlScript : MonoBehaviour
     public string inputAttack;
     public string inputInteract;
     public string inputReload;
-    public string inputSwitchWeapon;
-    public string inputUseItem;
-    /*
-     * Move to UI later
-    public string inputSubmit;
-    public string inputCancel;
-     *
-     */
+	public string inputSwitchWeapon;
+	public string inputUseItemVaccineA;
+	public string inputUseItemMPA;
 
     [Header("Detection")]
 	public bool interacting;
@@ -104,9 +99,20 @@ public class PlayerControlScript : MonoBehaviour
 		#endregion Movement
 	}
 
+	void OnDisable()
+	{
+		SoundManagerScript.Instance.StopLoopingSFX(AudioClipID.SFX_PL_WALKING);
+		//Stop roll Sound
+	}
+
     void Update()
 	{
-		if(PauseMenuManagerScript.Instance.paused) return;
+		if(PauseMenuManagerScript.Instance.paused)
+		{
+			SoundManagerScript.Instance.StopLoopingSFX(AudioClipID.SFX_PL_WALKING);
+			//Stop roll Sound
+			return;
+		}
 		#region Movement
 
 		if(canRoll)
@@ -255,9 +261,37 @@ public class PlayerControlScript : MonoBehaviour
 		#region SwitchWeapon
 
 		if(Input.GetButtonDown(inputSwitchWeapon))
-			self.weapon.CycleWeapon();
-		
+		{
+			if(self.inventory.HasEnoughItems(Item.Type.C, 1))
+			{
+				self.weapon.CycleWeapon();
+			}
+		}
+
 		#endregion SwitchWeapon
+
+		#region UseItem
+
+		if(Input.GetButtonDown(inputUseItemVaccineA))
+		{
+			if(self.inventory.HasEnoughItems(Item.Type.A, 1))
+			{
+				self.inventory.RemoveItem(Item.Type.A, 1);
+				self.status.health.Extend(2);
+			}
+		}
+
+		if(Input.GetButtonDown(inputUseItemMPA))
+		{
+			if(self.inventory.HasEnoughItems(Item.Type.B, 1))
+			{
+				self.inventory.RemoveItem(Item.Type.B, 1);
+				self.weapon.empoweredBullet += 6;
+				self.weapon.Reload();
+			}
+		}
+
+		#endregion UseItem
 
 		#region CameraAdjust
 

@@ -41,7 +41,7 @@ public class TutorialScript : MonoBehaviour
 				GetComponent<Animator>().Play("DoubleTap_Roll");
 				break;
 			case TutorialType.UseItem:
-				GetComponent<Animator>().Play("1&2_UseItem");
+				GetComponent<Animator>().Play("Q&W_UseItem");
 				break;
 		}
 	}

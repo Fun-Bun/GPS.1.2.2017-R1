@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9d5689a5f2ae8354aaa4f14030cd607e
-timeCreated: 1502403446
+guid: 9b7d54356630eb34bb8f95e8baabd0dd
+timeCreated: 1502391503
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: CombatRoll_0
+    21300000: BulletHell_0
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -95,7 +95,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CombatRoll_0
+      name: BulletHell_0
       rect:
         serializedVersion: 2
         x: 0
@@ -103,7 +103,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
