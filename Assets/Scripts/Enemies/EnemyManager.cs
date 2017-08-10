@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
 	public PlatformReceiverScript platformReceiver;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
 	{
 		collider = GetComponent<CapsuleCollider2D>();
 		rigidbody = GetComponent<Rigidbody2D>();

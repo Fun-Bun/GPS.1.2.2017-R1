@@ -32,6 +32,16 @@ public class MeleeEnemyControlScript : EnemyControlScript
 		target = Instantiate(targetPrefab, this.transform.position, Quaternion.identity).GetComponent<EnemyTargetScript>();
 		target.self = this.self;
 		target.SetPosition(transform.position);
+
+		// Random Health
+		int randomHP = Random.Range(2, 5);
+		self.status.health.max = randomHP;
+		self.status.health.value = self.status.health.max;
+		float size = (randomHP - 3) * 0.15f;
+		Vector3 newScale = transform.localScale;
+		newScale.x += size;
+		newScale.y += size;
+		transform.localScale = newScale; 
 	}
 
 	bool Move(Transform targetTransform, float buffer)

@@ -69,10 +69,13 @@ public class PlayerStatusScript : MonoBehaviour
 
 	void OnCollisionStay2D(Collision2D col)
 	{
-		if(col.collider.transform.parent.tag == "Spikes")
+		if(col.collider.transform.parent != null)
 		{
-			health.Reduce(1);
-			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_RECEIVEDDMG);
+			if(col.collider.transform.parent.tag == "Spikes")
+			{
+				health.Reduce(1);
+				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_PL_RECEIVEDDMG);
+			}
 		}
 	}
 }

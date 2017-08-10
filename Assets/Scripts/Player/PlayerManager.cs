@@ -54,7 +54,7 @@ public class PlayerManager : MonoBehaviour
     public string quitScene;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
 		collider = GetComponent<CapsuleCollider2D>();
 		rigidbody = GetComponent<Rigidbody2D>();
