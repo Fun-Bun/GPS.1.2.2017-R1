@@ -1,22 +1,17 @@
 fileFormatVersion: 2
-guid: 0debba6bd27be934c8c188464fe8e3a0
-timeCreated: 1502321059
+guid: 9cfdec5419e624b44a32f91628afd2ff
+timeCreated: 1502324227
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: LMBToShoot_Sheet_0
-    21300002: LMBToShoot_Sheet_1
-    21300004: LMBToShoot_Sheet_2
-    21300006: LMBToShoot_Sheet_3
-    21300008: LMBToShoot_Sheet_4
-    21300010: LMBToShoot_Sheet_5
-    21300012: LMBToShoot_Sheet_6
-    21300014: LMBToShoot_Sheet_7
-    21300016: LMBToShoot_Sheet_8
-    21300018: LMBToShoot_Sheet_9
-    21300020: LMBToShoot_Sheet_10
-    21300022: LMBToShoot_Sheet_11
-    21300024: LMBToShoot_Sheet_12
+    21300000: Vaccine_A_Sheet_0
+    21300002: Vaccine_A_Sheet_1
+    21300004: Vaccine_A_Sheet_2
+    21300006: Vaccine_A_Sheet_3
+    21300008: Vaccine_A_Sheet_4
+    21300010: Vaccine_A_Sheet_5
+    21300012: Vaccine_A_Sheet_6
+    21300014: Vaccine_A_Sheet_7
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -107,171 +102,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_0
+      name: Vaccine_A_Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_1
+      name: Vaccine_A_Sheet_1
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_2
+      name: Vaccine_A_Sheet_2
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_3
+      name: Vaccine_A_Sheet_3
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_4
+      name: Vaccine_A_Sheet_4
       rect:
         serializedVersion: 2
         x: 128
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_5
+      name: Vaccine_A_Sheet_5
       rect:
         serializedVersion: 2
         x: 160
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_6
+      name: Vaccine_A_Sheet_6
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: LMBToShoot_Sheet_7
+      name: Vaccine_A_Sheet_7
       rect:
         serializedVersion: 2
         x: 224
         y: 0
         width: 32
         height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LMBToShoot_Sheet_8
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LMBToShoot_Sheet_9
-      rect:
-        serializedVersion: 2
-        x: 288
-        y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LMBToShoot_Sheet_10
-      rect:
-        serializedVersion: 2
-        x: 320
-        y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LMBToShoot_Sheet_11
-      rect:
-        serializedVersion: 2
-        x: 352
-        y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: LMBToShoot_Sheet_12
-      rect:
-        serializedVersion: 2
-        x: 384
-        y: 0
-        width: 32
-        height: 32
-      alignment: 9
-      pivot: {x: 0.5, y: 0.4}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

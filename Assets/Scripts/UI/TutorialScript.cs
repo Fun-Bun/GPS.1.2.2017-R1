@@ -9,7 +9,10 @@ public class TutorialScript : MonoBehaviour
 		Move = 0,
 		Jump,
 		Interact,
-		LMB
+		LMB,
+		RMB,
+		Roll,
+		UseItem
 	}
 
 	public TutorialType type;
@@ -30,6 +33,15 @@ public class TutorialScript : MonoBehaviour
 				break;
 			case TutorialType.LMB:
 				GetComponent<Animator>().Play("LMB_ToShoot");
+				break;
+			case TutorialType.RMB:
+				GetComponent<Animator>().Play("RMB_ToSwitch");
+				break;
+			case TutorialType.Roll:
+				GetComponent<Animator>().Play("DoubleTap_Roll");
+				break;
+			case TutorialType.UseItem:
+				GetComponent<Animator>().Play("1&2_UseItem");
 				break;
 		}
 	}

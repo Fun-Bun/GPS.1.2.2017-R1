@@ -74,4 +74,19 @@ public class PlayerManager : MonoBehaviour
 		if (ui		   	!= null)   ui.self   		= this;
 		if (landbox     != null)   landbox.self     = this;
 	}
+
+	public void EnableControls()
+	{
+		controls.enabled = true;
+	}
+
+	public void DisableControls()
+	{
+		controls.enabled = false;
+		controls.moveSpeedFactor = 0.0f;
+		SoundManagerScript.Instance.StopLoopingSFX(AudioClipID.SFX_PL_WALKING);
+		//Stop roll Sound
+		animator.SetFloat("HSpeedAbs", 0f);
+		animator.SetBool("Grounded", true);
+	}
 }

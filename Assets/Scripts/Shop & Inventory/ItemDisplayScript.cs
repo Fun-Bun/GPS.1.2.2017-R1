@@ -12,6 +12,8 @@ public class ItemDisplayScript : MonoBehaviour
 	public Text nameText;
 	public Text priceText;
 	public Text descText;
+
+	public Animator anim;
 	
 	// Update is called once per frame
 	void Start ()
@@ -20,5 +22,23 @@ public class ItemDisplayScript : MonoBehaviour
 		nameText.text = Item.GetName (type);
 		priceText.text = Item.GetPrice (type).ToString();
 		descText.text = Item.GetDesc (type);
+	}
+
+	void OnEnable()
+	{
+		if(anim == null) anim = GetComponent<Animator>();
+
+		switch(type)
+		{
+			case Item.Type.A:
+				anim.Play("Vaccine_A");
+				break;
+			case Item.Type.B:
+				anim.Play("MPA");
+				break;
+			case Item.Type.C:
+				anim.Play("Bulletform");
+				break;
+		}
 	}
 }
