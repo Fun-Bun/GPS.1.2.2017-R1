@@ -26,7 +26,7 @@ public class DoorScript : MonoBehaviour
 	void Start ()
 	{
 		animator = GetComponent<Animator>();
-		camPos = transform.parent.position;
+		camPos = transform.position;
 		camPos.z = -10.0f;
 		playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
 	}
@@ -84,12 +84,12 @@ public class DoorScript : MonoBehaviour
 	public void PlayOpenDoorSound()
 	{
 		if(Vector3.Distance(playerTrans.position, transform.position) <= 6.0f)
-			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CD_OPENDOOR);
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_SR_OPENDOOR);
 	}
 
 	public void PlayCloseDoorSound()
 	{
 		if(Vector3.Distance(playerTrans.position, transform.position) <= 6.0f)
-			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_CD_CLOSEDOOR);
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_SR_CLOSEDOOR);
 	}
 }

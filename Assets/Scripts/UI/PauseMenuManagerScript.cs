@@ -78,5 +78,10 @@ public class PauseMenuManagerScript : MonoBehaviour
 		paused = false;
 		GetComponent<MainMenuManagerScript>().CloseMenu(0);
 		Time.timeScale = 1f;
-	}
+    }
+
+    public void PlayButtonSound()
+    {
+        SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_UI_BUTTON);
+    }
 }

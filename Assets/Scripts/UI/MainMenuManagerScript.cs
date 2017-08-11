@@ -58,4 +58,9 @@ public class MainMenuManagerScript : MonoBehaviour
 	{
 		SoundManagerScript.Instance.SetBrightness(slider.GetComponent<Slider>().value);
 	}
+
+    public void PlayButtonSound()
+    {
+        SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_UI_BUTTON);
+    }
 }

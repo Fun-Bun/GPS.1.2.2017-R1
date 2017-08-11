@@ -188,8 +188,11 @@ public class PlayerWeaponScript : MonoBehaviour
 						if(empoweredBullet > 0) empoweredBullet--;
 
 						animator.Play("Gun_Default_Shoot", 0, 0.0f);
-
-						SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
+						
+						if(empoweredBullet > 0)
+							SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGMPA);
+						else
+							SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SHOOTINGNORMAL);
 
 						GetActiveWeapon().ammo.Reduce(StorageManagerScript.Instance.weapons.settings[(int)GetActiveWeapon().type].ammoPerShot);
 

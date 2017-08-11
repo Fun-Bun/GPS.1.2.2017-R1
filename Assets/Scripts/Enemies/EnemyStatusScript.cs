@@ -17,6 +17,8 @@ public class EnemyStatusScript : MonoBehaviour
 	public float invincibleTimer;
 	public float invincibleDuration;
 
+    private bool hasDroppedCurrency = false;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -31,6 +33,11 @@ public class EnemyStatusScript : MonoBehaviour
 		if(health.value <= 0)
 		{
 			self.controls.SetState(AIState.Death);
+            if(!hasDroppedCurrency) 
+            {
+                Instantiate(StorageManagerScript.Instance.droppedItem, transform.position, Quaternion.identity);
+                hasDroppedCurrency = true;
+            }
 		}
 
 		if(isHit)

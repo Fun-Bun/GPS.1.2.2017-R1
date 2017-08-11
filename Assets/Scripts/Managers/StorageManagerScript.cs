@@ -108,6 +108,7 @@ public class StorageManagerScript : MonoBehaviour
 	public ItemStorage items;
 	public WeaponStorage weapons;
 	public EnemyStorage enemies;
+    public GameObject droppedItem;
 
 	void Awake () 
 	{

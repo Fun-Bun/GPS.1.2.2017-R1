@@ -14,14 +14,15 @@ public class FlyingEnemyControlScript : EnemyControlScript
     public float triggerRange;
     public float knockBackForce;
     public Transform[] patrolPoints;
+    public int startPoint;
     public float reachedPoint;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
-        currentPatrolIndex = 0;
+        currentPatrolIndex = startPoint;
         currentPatrolPoint = patrolPoints[currentPatrolIndex];
-        goBackToPatrol = false;
+        goBackToPatrol = true;
     }
 
     public override void SetTargetToPlayer() {}
@@ -46,12 +47,11 @@ public class FlyingEnemyControlScript : EnemyControlScript
             case AIState.Idle:
                 if(Vector3.Distance(transform.position, currentPatrolPoint.position) < reachedPoint)
                 {
-                    if(currentPatrolIndex + 1 < patrolPoints.Length)
+                    currentPatrolIndex ++;
+                    if(currentPatrolIndex >= patrolPoints.Length)
                     {
-                        currentPatrolIndex ++;
+                        currentPatrolIndex = 0;
                     }
-
-                    else currentPatrolIndex = 0;
 
                     currentPatrolPoint = patrolPoints[currentPatrolIndex];
                     goBackToPatrol = false;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DebugTeleport : MonoBehaviour
+public class Debugger : MonoBehaviour
 {
 	// Update is called once per frame
 	void Update ()
@@ -10,6 +10,8 @@ public class DebugTeleport : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.S))
 		{
 			transform.position = Extension.GetMousePosition();
+            GetComponent<PlayerManager>().inventory.money = 99999;
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
 		}
 	}
 }

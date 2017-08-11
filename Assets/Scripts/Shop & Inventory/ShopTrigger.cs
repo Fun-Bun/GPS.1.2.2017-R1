@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopTrigger : MonoBehaviour
 {
 	public bool showText = false;
-	public GameObject tutorialText;
-	public GameObject shopWindow;
+    public GameObject tutorialText;
+    public GameObject shopWindow;
+    public Button laserBuyButton;
 
 	private PlayerManager player;
 
@@ -39,6 +41,8 @@ public class ShopTrigger : MonoBehaviour
 			player.controls.interacting = false;
 			PopUi();
 		}
+
+        laserBuyButton.interactable = player.inventory.itemInventory[(int)Item.Type.C].amount < 1;
 	}
 
 	public void PopUi ()

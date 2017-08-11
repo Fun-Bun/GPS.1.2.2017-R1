@@ -252,7 +252,7 @@ public class MeleeEnemyControlScript : EnemyControlScript
 				break;
 
 			case AIState.Death:
-				self.animator.Play("Monster_Death");
+                self.animator.Play("Monster_Death");
 				Destroy(gameObject, 0.8f);
 	            break;
 

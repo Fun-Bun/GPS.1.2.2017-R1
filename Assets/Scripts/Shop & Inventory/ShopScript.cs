@@ -43,8 +43,11 @@ public class ShopScript : MonoBehaviour
 	public void SellC()
 	{
 		playerInventory.Trade(Item.Type.C, 1, myInventory);
-	} 
+    }
 
-
+    public void PlayButtonSound()
+    {
+        SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_UI_BUTTON);
+    }
 }
 

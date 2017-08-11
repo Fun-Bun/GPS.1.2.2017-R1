@@ -93,7 +93,7 @@ public class SpittingEnemyControlScript : EnemyControlScript
 				break;
 
 			case AIState.Death:
-				self.animator.SetBool("IsDead", true);
+                self.animator.SetBool("IsDead", true);
                 Destroy(gameObject, 1.0f);
                
                 break;

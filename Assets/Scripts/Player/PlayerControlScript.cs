@@ -245,7 +245,10 @@ public class PlayerControlScript : MonoBehaviour
 		#region Interact
 
 		if(Input.GetButtonDown(inputInteract))
+        {
 			interacting = true;
+            SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_UI_BUTTON);
+        }
 		else if(Input.GetButtonUp(inputInteract))
 			interacting = false;
 
@@ -278,6 +281,7 @@ public class PlayerControlScript : MonoBehaviour
 			{
 				self.inventory.RemoveItem(Item.Type.A, 1);
 				self.status.health.Extend(2);
+				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_IT_VACCINE);
 			}
 		}
 
@@ -286,8 +290,9 @@ public class PlayerControlScript : MonoBehaviour
 			if(self.inventory.HasEnoughItems(Item.Type.B, 1))
 			{
 				self.inventory.RemoveItem(Item.Type.B, 1);
-				self.weapon.empoweredBullet += 6;
+				self.weapon.empoweredBullet += 12;
 				self.weapon.Reload();
+				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SWITCHMPA);
 			}
 		}
 
@@ -332,6 +337,7 @@ public class PlayerControlScript : MonoBehaviour
 			DroppedItemScript drop = other.GetComponent<DroppedItemScript>();
 
 			self.inventory.AddItem(drop.data.type, drop.data.amount);
+			SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_IT_BLACKFMONEY);
 			Destroy(other.gameObject);
 		}
 

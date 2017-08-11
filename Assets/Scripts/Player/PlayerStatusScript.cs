@@ -47,13 +47,11 @@ public class PlayerStatusScript : MonoBehaviour
 
 	public void Respawn()
     {
-        Destroy(gameObject);
-		SceneManager.LoadScene(self.respawnScene);
+        SceneManager.LoadScene(self.respawnScene);
 	}
 
 	public void Quit()
     {
-        Destroy(gameObject);
 		SceneManager.LoadScene(self.quitScene);
 	}
 

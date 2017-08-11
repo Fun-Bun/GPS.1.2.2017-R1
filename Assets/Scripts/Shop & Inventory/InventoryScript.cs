@@ -8,7 +8,7 @@ public class InventoryScript : MonoBehaviour
 	public List<Item> itemInventory = new List<Item>();
 	public bool isShop = false;
 
-	void Start ()
+	void Awake ()
 	{
 		for(int i = 0; i < (int)Item.Type.Total; i++)
 		{
