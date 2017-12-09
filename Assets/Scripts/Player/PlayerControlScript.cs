@@ -19,6 +19,9 @@ public class PlayerControlScript : MonoBehaviour
 	public string inputUseItemVaccineA;
 	public string inputUseItemMPA;
 
+	[Header("Input Restriction")]
+	public bool canUseItem = true;
+
     [Header("Detection")]
 	public bool interacting;
 
@@ -275,24 +278,27 @@ public class PlayerControlScript : MonoBehaviour
 
 		#region UseItem
 
-		if(Input.GetButtonDown(inputUseItemVaccineA))
+		if(canUseItem)
 		{
-			if(self.inventory.HasEnoughItems(Item.Type.A, 1))
+			if(Input.GetButtonDown(inputUseItemVaccineA))
 			{
-				self.inventory.RemoveItem(Item.Type.A, 1);
-				self.status.health.Extend(2);
-				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_IT_VACCINE);
+				if(self.inventory.HasEnoughItems(Item.Type.A, 1))
+				{
+					self.inventory.RemoveItem(Item.Type.A, 1);
+					self.status.health.Extend(2);
+					SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_IT_VACCINE);
+				}
 			}
-		}
 
-		if(Input.GetButtonDown(inputUseItemMPA))
-		{
-			if(self.inventory.HasEnoughItems(Item.Type.B, 1))
+			if(Input.GetButtonDown(inputUseItemMPA))
 			{
-				self.inventory.RemoveItem(Item.Type.B, 1);
-				self.weapon.empoweredBullet += 12;
-				self.weapon.Reload();
-				SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SWITCHMPA);
+				if(self.inventory.HasEnoughItems(Item.Type.B, 1))
+				{
+					self.inventory.RemoveItem(Item.Type.B, 1);
+					self.weapon.empoweredBullet += 12;
+					self.weapon.Reload();
+					SoundManagerScript.Instance.PlaySFX(AudioClipID.SFX_GUN_SWITCHMPA);
+				}
 			}
 		}
 
